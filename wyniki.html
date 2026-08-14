@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wyniki na Żywo - Odważny Mały Strażak</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans">
+
+    <!-- GÓRNE MENU NAWIGACYJNE -->
+    <nav class="bg-slate-900 text-white shadow-md sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 flex flex-wrap justify-center sm:justify-start gap-2 py-3">
+            <a href="index.html" class="px-4 py-2 rounded-xl text-sm font-bold bg-slate-800 text-gray-200 hover:bg-slate-700 hover:text-white transition flex items-center gap-2">
+                <i class="fa-solid fa-house"></i> Home
+            </a>
+            <a href="wyniki.html" class="px-4 py-2 rounded-xl text-sm font-bold bg-red-600 text-white hover:bg-red-700 transition flex items-center gap-2 shadow-sm">
+                <i class="fa-solid fa-trophy"></i> Wyniki na żywo
+            </a>
+            <a href="nocne.html" class="px-4 py-2 rounded-xl text-sm font-bold bg-slate-800 text-gray-200 hover:bg-slate-700 hover:text-white transition flex items-center gap-2">
+                <i class="fa-solid fa-moon"></i> Zawody nocne
+            </a>
+        </div>
+    </nav>
+
+    <!-- NAGŁÓWEK -->
+    <header class="bg-gradient-to-r from-red-700 via-red-600 to-red-800 text-white py-6 px-4 shadow-xl border-b-4 border-yellow-400">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left">
+            <div class="flex items-center gap-4">
+                <div class="w-16 h-16 bg-white/10 rounded-full p-2 backdrop-blur border border-white/20 flex items-center justify-center shrink-0">
+                    <img src="herb-osp-bojanow.png" alt="Herb OSP Bojanów" class="max-h-full object-contain" onerror="this.outerHTML='<i class=\'fa-solid fa-trophy text-yellow-300 text-2xl\'></i>'">
+                </div>
+                <div>
+                    <h1 class="text-2xl md:text-3xl font-black uppercase tracking-tight text-white drop-shadow">
+                        Wyniki na Żywo
+                    </h1>
+                    <p class="text-sm font-medium text-red-100">
+                        VI Ogólnopolskie Zawody "Odważny Mały Strażak" - OSP Bojanów
+                    </p>
+                </div>
+            </div>
+
+            <div>
+                <button id="admin-auth-btn" onclick="toggleAdminPanel()" class="bg-slate-900 hover:bg-black text-white font-bold px-4 py-2.5 rounded-xl text-sm transition flex items-center gap-2 shadow-md">
+                    <i class="fa-solid fa-lock"></i> Panel Sędziowski
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 py-8 space-y-6">
+
+        <section class="bg-white p-4 sm:p-8 rounded-2xl shadow-md border border-gray-100">
+            
+            <div class="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4 border-b border-slate-100 pb-4">
+                <div class="text-center sm:text-left">
+                    <span id="sync-status" class="bg-amber-100 text-amber-800 text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full flex items-center gap-1.5 w-fit mx-auto sm:mx-0">
+                        <span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span> Łączenie z siecią...
+                    </span>
+                    <h2 class="text-xl sm:text-2xl font-black text-gray-900 mt-2">Lista Startowa i Tabela Wyników</h2>
+                </div>
+
+                <!-- PRZEŁĄCZNIK KATEGORII -->
+                <div class="bg-slate-100 p-1.5 rounded-xl flex gap-2 border border-slate-200">
+                    <button onclick="switchTab('ddp')" id="tab-btn-ddp" class="px-5 py-2 rounded-lg text-sm font-bold transition-all shadow-sm bg-red-600 text-white">
+                        DDP (Dziecięce)
+                    </button>
+                    <button onclick="switchTab('mdp')" id="tab-btn-mdp" class="px-5 py-2 rounded-lg text-sm font-bold transition-all text-slate-600 hover:text-slate-900">
+                        MDP (Młodzieżowe)
+                    </button>
+                </div>
+            </div>
+
+            <!-- KATEGORIA DDP -->
+            <div id="tab-content-ddp" class="space-y-6">
+                <!-- PANEL SĘDZIEGO DDP -->
+                <div id="admin-controls-ddp" class="hidden bg-red-50 p-4 sm:p-6 rounded-2xl border border-red-200 space-y-4">
+                    <h3 class="text-sm font-bold text-red-900 uppercase tracking-wider flex items-center gap-2">
+                        <i class="fa-solid fa-sliders"></i> Panel Sterowania Sędziego - DDP
+                    </h3>
+                    <div class="flex flex-col sm:flex-row gap-2">
+                        <input type="text" id="input-ddp-team" placeholder="Wpisz nazwę nowej drużyny DDP" class="flex-1 px-4 py-2 border border-gray-300 rounded-xl text-sm">
+                        <button onclick="addTeam('ddp')" class="bg-slate-800 hover:bg-slate-900 text-white px-4 py-2 rounded-xl text-sm font-bold">Dodaj Drużynę</button>
+                    </div>
+                    <div class="flex flex-wrap gap-2 pt-2 border-t border-red-200">
+                        <button onclick="drawNumbers('ddp')" class="bg-red-600 hover:bg-red-700 text-white font-bold px-4 py-2 rounded-xl text-sm shadow">
+                            🎲 Wylosuj Numery (DDP)
+                        </button>
+                        <button onclick="toggleDdpRanks()" id="btn-ddp-ranks" class="bg-amber-500 hover:bg-amber-600 text-white font-bold px-4 py-2 rounded-xl text-sm shadow">
+                            🏆 Pokaż 1. Miejsca dla wszystkich DDP
+                        </button>
+                        <button onclick="resetCategory('ddp')" class="bg-white border border-red-300 text-red-700 font-semibold px-3 py-2 rounded-xl text-xs hover:bg-red-100">
+                            Resetuj DDP
+                        </button>
+                    </div>
+                </div>
+
+                <!-- TABELA DDP -->
+                <div class="overflow-x-auto rounded-xl border border-slate-200 shadow-sm">
+                    <table class="w-full text-left text-sm">
+                        <thead class="bg-slate-100 text-slate-700 uppercase text-xs tracking-wider">
+                            <tr>
+                                <th class="p-3 text-center w-14">Nr</th>
+                                <th class="p-3">Nazwa Drużyny</th>
+                                <th class="p-3 text-center w-28 sm:w-36">Czas (s)</th>
+                                <th class="p-3 text-center w-28 sm:w-36">Karne (s)</th>
+                                <th class="p-3 text-center w-28 sm:w-36">Wynik Łączny</th>
+                                <th class="p-3 text-center w-20">Miejsce</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-body-ddp" class="divide-y divide-slate-200 bg-white"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- KATEGORIA MDP -->
+            <div id="tab-content-mdp" class="space-y-6 hidden">
+                <!-- PANEL SĘDZIEGO MDP -->
+                <div id="admin-controls-mdp" class="hidden bg-red-50 p-4 sm:p-6 rounded-2xl border border-red-200 space-y-4">
+                    <h3 class="text-sm font-bold text-red-900 uppercase tracking-wider flex items-center gap-2">
+                        <i class="fa-solid fa-sliders"></i> Panel Sterowania Sędziego - MDP
+                    </h3>
+                    <div class="flex flex-col sm:flex-row gap-2">
+                        <input type="text" id="input-mdp-team" placeholder="Wpisz nazwę nowej drużyny MDP" class="flex-1 px-4 py-2 border border-gray-300 rounded-xl text-sm">
+                        <button onclick="addTeam('mdp')" class="bg-slate-800 hover:bg-slate-900 text-white px-4 py-2 rounded-xl text-sm font-bold">Dodaj Drużynę</button>
+                    </div>
+                    <div class="flex flex-wrap gap-2 pt-2 border-t border-red-200">
+                        <button onclick="drawNumbers('mdp')" class="bg-red-600 hover:bg-red-700 text-white font-bold px-4 py-2 rounded-xl text-sm shadow">
+                            🎲 Wylosuj Numery (MDP)
+                        </button>
+                        <button onclick="resetCategory('mdp')" class="bg-white border border-red-300 text-red-700 font-semibold px-3 py-2 rounded-xl text-xs hover:bg-red-100">
+                            Resetuj MDP
+                        </button>
+                    </div>
+                </div>
+
+                <!-- TABELA MDP -->
+                <div class="overflow-x-auto rounded-xl border border-slate-200 shadow-sm">
+                    <table class="w-full text-left text-sm">
+                        <thead class="bg-slate-100 text-slate-700 uppercase text-xs tracking-wider">
+                            <tr>
+                                <th class="p-3 text-center w-14">Nr</th>
+                                <th class="p-3">Nazwa Drużyny</th>
+                                <th class="p-3 text-center w-28 sm:w-36">Czas (s)</th>
+                                <th class="p-3 text-center w-28 sm:w-36">Karne (s)</th>
+                                <th class="p-3 text-center w-28 sm:w-36">Wynik Łączny</th>
+                                <th class="p-3 text-center w-20">Miejsce</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-body-mdp" class="divide-y divide-slate-200 bg-white"></tbody>
+                    </table>
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <footer class="bg-gray-900 text-gray-400 text-center py-6 border-t-4 border-red-600 mt-12 text-xs">
+        <p class="font-bold text-white">Ochotnicza Straż Pożarna w Bojanowie</p>
+        <p>&copy; 2026 Wszystkie prawa zastrzeżone.</p>
+    </footer>
+
+    <!-- LOGIKA BAZY DANYCH I PANELU -->
+    <script>
+        // =========================================================================
+        // ADRES BAZY FIREBASE (WKLEJ SWÓJ URL BAZY JEŚLI POSIADASZ)
+        // =========================================================================
+        const FIREBASE_DATABASE_URL = "https://osp-bojanow-default-rtdb.europe-west1.firebasedatabase.app/"; 
+        const SECRET_PIN = "1122";
+
+        let db = null;
+        let isAdmin = false;
+
+        // Domyślna baza drużyn
+        let competitionData = {
+            ddp: {
+                teams: ["DDP Bojanów", "DDP Cyprzanów", "DDP Kobyla", "DDP Zabełków", "DDP Tworków", "DDP Pietraszyn", "DDP Borucin", "DDP Krzanowice", "DDP Ostrożnica", "DDP Krzyżanowice", "DDP Samborowice", "DDP Roszków"],
+                drawn: [],
+                ranksRevealed: false
+            },
+            mdp: {
+                teams: ["MDP Bojanów", "MDP Tworków 1", "MDP Tworków 2", "MDP Babice", "MDP Wojnowice", "MDP Pietraszyn", "MDP Krzanowice", "MDP Krzyżanowice 1", "MDP Krzyżanowice 2", "MDP Ostrożnica", "MDP Borucin"],
+                drawn: []
+            }
+        };
+
+        function initFirebase() {
+            const statusEl = document.getElementById('sync-status');
+
+            if (!FIREBASE_DATABASE_URL || FIREBASE_DATABASE_URL.includes("TWOJA-BAZA")) {
+                statusEl.className = "bg-amber-100 text-amber-800 text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full flex items-center gap-1.5 w-fit mx-auto sm:mx-0";
+                statusEl.innerHTML = `<span class="w-2 h-2 rounded-full bg-amber-500"></span> Tryb lokalny (brak URL Firebase)`;
+                loadLocalData();
+                renderTables();
+                return;
+            }
+
+            try {
+                firebase.initializeApp({ databaseURL: FIREBASE_DATABASE_URL });
+                db = firebase.database();
+
+                // Nasłuchiwanie zmian w czasie rzeczywistym
+                db.ref('competition_data').on('value', (snapshot) => {
+                    const val = snapshot.val();
+                    if (val) {
+                        competitionData = val;
+                    } else {
+                        ensureInitialStructure('ddp');
+                        ensureInitialStructure('mdp');
+                        saveData();
+                    }
+                    
+                    statusEl.className = "bg-emerald-100 text-emerald-800 text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full flex items-center gap-1.5 w-fit mx-auto sm:mx-0";
+                    statusEl.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Połączono na żywo`;
+
+                    renderTables();
+                });
+
+            } catch(e) {
+                console.error("Błąd Firebase:", e);
+            }
+        }
+
+        function saveData() {
+            renderTables();
+            if (db) {
+                db.ref('competition_data').set(competitionData);
+            }
+            localStorage.setItem('osp_bojanow_backup', JSON.stringify(competitionData));
+        }
+
+        function loadLocalData() {
+            const local = localStorage.getItem('osp_bojanow_backup');
+            if (local) {
+                try { competitionData = JSON.parse(local); } catch(e){}
+            }
+            ensureInitialStructure('ddp');
+            ensureInitialStructure('mdp');
+        }
+
+        function ensureInitialStructure(cat) {
+            if (!competitionData[cat].drawn || competitionData[cat].drawn.length === 0) {
+                competitionData[cat].drawn = competitionData[cat].teams.map((name, idx) => ({
+                    number: idx + 1,
+                    name: name,
+                    time: '',
+                    penalties: '',
+                    total: null,
+                    rank: cat === 'ddp' ? 1 : '-'
+                }));
+            }
+        }
+
+        function toggleAdminPanel() {
+            if (isAdmin) {
+                isAdmin = false;
+                updateAdminUI();
+                return;
+            }
+            const enteredPin = prompt("Podaj PIN Sędziego:");
+            if (enteredPin === SECRET_PIN) {
+                isAdmin = true;
+                alert("Zalogowano pomyślnie! Tryb edycji sędziowskiej jest aktywny.");
+                updateAdminUI();
+            } else if (enteredPin !== null) {
+                alert("Nieprawidłowy PIN!");
+            }
+        }
+
+        function updateAdminUI() {
+            const btn = document.getElementById('admin-auth-btn');
+            const controlsDDP = document.getElementById('admin-controls-ddp');
+            const controlsMDP = document.getElementById('admin-controls-mdp');
+
+            if (isAdmin) {
+                btn.innerHTML = `<i class="fa-solid fa-unlock"></i> Wyloguj Sędziego`;
+                btn.className = "bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-4 py-2.5 rounded-xl text-sm shadow-md";
+                controlsDDP.classList.remove('hidden');
+                controlsMDP.classList.remove('hidden');
+            } else {
+                btn.innerHTML = `<i class="fa-solid fa-lock"></i> Panel Sędziowski`;
+                btn.className = "bg-slate-900 hover:bg-black text-white font-bold px-4 py-2.5 rounded-xl text-sm shadow-md";
+                controlsDDP.classList.add('hidden');
+                controlsMDP.classList.add('hidden');
+            }
+            renderTables();
+        }
+
+        function switchTab(category) {
+            const btnDDP = document.getElementById('tab-btn-ddp');
+            const btnMDP = document.getElementById('tab-btn-mdp');
+            const contentDDP = document.getElementById('tab-content-ddp');
+            const contentMDP = document.getElementById('tab-content-mdp');
+
+            if (category === 'ddp') {
+                btnDDP.className = "px-5 py-2 rounded-lg text-sm font-bold shadow bg-red-600 text-white";
+                btnMDP.className = "px-5 py-2 rounded-lg text-sm font-bold text-slate-600 hover:text-slate-900";
+                contentDDP.classList.remove('hidden');
+                contentMDP.classList.add('hidden');
+            } else {
+                btnMDP.className = "px-5 py-2 rounded-lg text-sm font-bold shadow bg-red-600 text-white";
+                btnDDP.className = "px-5 py-2 rounded-lg text-sm font-bold text-slate-600 hover:text-slate-900";
+                contentMDP.classList.remove('hidden');
+                contentDDP.classList.add('hidden');
+            }
+        }
+
+        function addTeam(cat) {
+            if (!isAdmin) return;
+            const input = document.getElementById(`input-${cat}-team`);
+            const name = input.value.trim();
+            if (!name) return alert('Wpisz nazwę drużyny!');
+
+            competitionData[cat].teams.push(name);
+            competitionData[cat].drawn.push({
+                number: competitionData[cat].drawn.length + 1,
+                name: name,
+                time: '',
+                penalties: '',
+                total: null,
+                rank: cat === 'ddp' ? 1 : '-'
+            });
+
+            input.value = '';
+            saveData();
+        }
+
+        function drawNumbers(cat) {
+            if (!isAdmin) return;
+            let list = [...competitionData[cat].teams];
+            if (list.length === 0) return alert('Brak drużyn do losowania!');
+
+            for (let i = list.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [list[i], list[j]] = [list[j], list[i]];
+            }
+
+            competitionData[cat].drawn = list.map((name, index) => ({
+                number: index + 1,
+                name: name,
+                time: '',
+                penalties: '',
+                total: null,
+                rank: cat === 'ddp' ? 1 : '-'
+            }));
+
+            if (cat === 'ddp') competitionData.ddp.ranksRevealed = false;
+
+            saveData();
+            alert(`🎲 Wylosowano kolejność dla ${cat.toUpperCase()}! Wyniki pojawiły się u widzów.`);
+        }
+
+        function toggleDdpRanks() {
+            if (!isAdmin) return;
+            competitionData.ddp.ranksRevealed = !competitionData.ddp.ranksRevealed;
+            saveData();
+        }
+
+        function updateScore(cat, index, field, value) {
+            if (!isAdmin) return;
+            const team = competitionData[cat].drawn[index];
+            team[field] = value !== '' ? value : '';
+
+            const t = parseFloat(team.time);
+            const p = parseFloat(team.penalties) || 0;
+
+            if (!isNaN(t)) {
+                team.total = parseFloat((t + p).toFixed(2));
+            } else {
+                team.total = null;
+            }
+
+            if (cat === 'mdp') {
+                calculateRanksMDP();
+            }
+
+            saveData();
+        }
+
+        function calculateRanksMDP() {
+            const drawn = competitionData.mdp.drawn;
+            const finished = drawn.filter(d => d.total !== null && !isNaN(d.total));
+            finished.sort((a, b) => a.total - b.total);
+
+            drawn.forEach(team => {
+                if (team.total === null || isNaN(team.total)) {
+                    team.rank = '-';
+                } else {
+                    team.rank = finished.findIndex(f => f.total === team.total) + 1;
+                }
+            });
+        }
+
+        function renderTables() {
+            renderTable('ddp');
+            renderTable('mdp');
+        }
+
+        function renderTable(cat) {
+            const tbody = document.getElementById(`table-body-${cat}`);
+            if (!tbody) return;
+
+            const data = competitionData[cat].drawn;
+
+            if (!data || data.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" class="p-6 text-center text-slate-400 italic">Brak drużyn.</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = data.map((item, idx) => `
+                <tr class="hover:bg-slate-50 transition border-b border-slate-100">
+                    <td class="p-3 text-center font-black text-red-600 bg-slate-50 border-r border-slate-100">${item.number}</td>
+                    <td class="p-3 font-bold text-slate-800">${item.name}</td>
+                    <td class="p-3 text-center">
+                        ${isAdmin ? 
+                            `<input type="number" step="0.01" value="${item.time || ''}" placeholder="0.00" oninput="updateScore('${cat}', ${idx}, 'time', this.value)" class="w-20 sm:w-24 px-2 py-1 border border-slate-300 rounded-lg text-center text-sm font-semibold focus:ring-2 focus:ring-red-500 focus:outline-none">` : 
+                            `<span class="font-semibold text-slate-700">${item.time ? item.time + ' s' : '-'}</span>`
+                        }
+                    </td>
+                    <td class="p-3 text-center">
+                        ${isAdmin ? 
+                            `<input type="number" step="1" value="${item.penalties || ''}" placeholder="0" oninput="updateScore('${cat}', ${idx}, 'penalties', this.value)" class="w-16 sm:w-20 px-2 py-1 border border-slate-300 rounded-lg text-center text-sm font-semibold focus:ring-2 focus:ring-red-500 focus:outline-none">` : 
+                            `<span class="font-semibold text-slate-700">${item.penalties ? '+' + item.penalties : '-'}</span>`
+                        }
+                    </td>
+                    <td class="p-3 text-center font-extrabold text-slate-900">
+                        ${item.total !== null && !isNaN(item.total) ? item.total + ' s' : '<span class="text-slate-300">-</span>'}
+                    </td>
+                    <td class="p-3 text-center">
+                        ${cat === 'ddp' ? 
+                            (competitionData.ddp.ranksRevealed ? `<span class="inline-block w-7 h-7 leading-7 rounded-full font-black text-xs bg-amber-400 text-amber-950 shadow-sm">1</span>` : '-') : 
+                            (item.rank !== '-' ? `<span class="inline-block w-7 h-7 leading-7 rounded-full font-black text-xs ${item.rank === 1 ? 'bg-amber-400 text-amber-950' : item.rank === 2 ? 'bg-slate-300 text-slate-800' : item.rank === 3 ? 'bg-amber-700 text-white' : 'bg-slate-100 text-slate-600'}">${item.rank}</span>` : '-')
+                        }
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function resetCategory(cat) {
+            if (!isAdmin) return;
+            if (confirm(`Czy zresetować kategorię ${cat.toUpperCase()}?`)) {
+                competitionData[cat].drawn = [];
+                ensureInitialStructure(cat);
+                saveData();
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            initFirebase();
+        });
+    </script>
+</body>
+</html>
