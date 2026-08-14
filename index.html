@@ -534,6 +534,323 @@
                 </iframe>
             </div>
         </section>
+        <!-- SEKCJA: LOSOWANIE I WYNIKI ZAWODÓW (DDP & MDP) -->
+        <section class="bg-white p-6 md:p-10 rounded-2xl shadow-md border border-gray-100 my-10 max-w-6xl mx-auto" id="losowanie-section">
+            <div class="text-center mb-8">
+                <span class="bg-red-100 text-red-700 text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full">Panel Sędziowski & Organizacyjny</span>
+                <h2 class="text-3xl font-extrabold text-gray-900 mt-2">Losowanie Kolejności & Lista Startowa</h2>
+                <p class="text-gray-500 text-sm mt-1">Przeprowadź oficjalne losowanie numerów startowych, a następnie wprowadzaj czasy i uzyskane miejsca.</p>
+            </div>
+
+            <!-- PRZEŁĄCZNIK KATEGORII (TABS) -->
+            <div class="flex justify-center mb-8">
+                <div class="bg-slate-100 p-1.5 rounded-xl flex gap-2 border border-slate-200">
+                    <button onclick="switchTab('ddp')" id="tab-btn-ddp" class="px-6 py-2.5 rounded-lg text-sm font-bold transition-all shadow-sm bg-red-600 text-white">
+                        DDP (Dziecięce Drużyny)
+                    </button>
+                    <button onclick="switchTab('mdp')" id="tab-btn-mdp" class="px-6 py-2.5 rounded-lg text-sm font-bold transition-all text-slate-600 hover:text-slate-900">
+                        MDP (Młodzieżowe Drużyny)
+                    </button>
+                </div>
+            </div>
+
+            <!-- TAB 1: DDP -->
+            <div id="tab-content-ddp" class="space-y-6">
+                <!-- FORMULARZ DODAWANIA DRUŻYN -->
+                <div class="bg-slate-50 p-4 sm:p-6 rounded-2xl border border-slate-200">
+                    <h3 class="text-md font-bold text-slate-800 mb-3 flex items-center gap-2">
+                        <span>➕</span> Rejestracja drużyn DDP do losowania
+                    </h3>
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <input type="text" id="input-ddp-team" placeholder="Wpisz nazwę drużyny (np. OSP Bojanów DDP)" class="flex-1 px-4 py-2.5 border border-slate-300 rounded-xl focus:ring-2 focus:ring-red-500 focus:outline-none text-sm">
+                        <button onclick="addTeam('ddp')" class="bg-slate-800 hover:bg-slate-900 text-white px-5 py-2.5 rounded-xl font-bold text-sm transition">
+                            Dodaj drużynę
+                        </button>
+                    </div>
+                    <!-- Lista zgłoszonych przed losowaniem -->
+                    <div class="mt-4">
+                        <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Zgłoszone drużyny (<span id="count-ddp">0</span>):</p>
+                        <div id="list-ddp-preliminary" class="flex flex-wrap gap-2 text-xs">
+                            <span class="text-slate-400 italic">Brak zgłoszonych drużyn. Dodaj pierwsze jednostki.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AKCJE LOSOWANIA -->
+                <div class="flex flex-wrap justify-between items-center gap-4 bg-red-50 p-4 rounded-xl border border-red-100">
+                    <div>
+                        <h4 class="font-bold text-red-900 text-sm">Oficjalne Losowanie DDP</h4>
+                        <p class="text-xs text-red-600">Kliknięcie wymiesza listę i przydzieli unikalne numery startowe.</p>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="drawNumbers('ddp')" class="bg-red-600 hover:bg-red-700 text-white font-bold px-5 py-2.5 rounded-xl text-sm shadow-md hover:shadow-lg transition flex items-center gap-2">
+                            🎲 Przeprowadź Losowanie DDP
+                        </button>
+                        <button onclick="resetCategory('ddp')" class="bg-white hover:bg-slate-100 text-slate-600 border border-slate-300 font-semibold px-3 py-2.5 rounded-xl text-xs transition">
+                            Resetuj
+                        </button>
+                    </div>
+                </div>
+
+                <!-- TABELA STARTOWA I WYNIKOWA -->
+                <div class="overflow-x-auto rounded-xl border border-slate-200 shadow-sm">
+                    <table class="w-full text-left text-sm">
+                        <thead class="bg-slate-100 text-slate-700 uppercase text-xs tracking-wider">
+                            <tr>
+                                <th class="p-3 text-center w-16">Nr</th>
+                                <th class="p-3">Nazwa Drużyny</th>
+                                <th class="p-3 text-center w-32">Czas (sek)</th>
+                                <th class="p-3 text-center w-32">Punkty Karne</th>
+                                <th class="p-3 text-center w-32">Wynik Łączny</th>
+                                <th class="p-3 text-center w-24">Miejsce</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-body-ddp" class="divide-y divide-slate-200 bg-white">
+                            <tr>
+                                <td colspan="6" class="p-8 text-center text-slate-400 italic">Lista startowa jest pusta. Dodaj drużyny i kliknij „Przeprowadź Losowanie”.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- TAB 2: MDP -->
+            <div id="tab-content-mdp" class="space-y-6 hidden">
+                <!-- FORMULARZ DODAWANIA DRUŻYN -->
+                <div class="bg-slate-50 p-4 sm:p-6 rounded-2xl border border-slate-200">
+                    <h3 class="text-md font-bold text-slate-800 mb-3 flex items-center gap-2">
+                        <span>➕</span> Rejestracja drużyn MDP do losowania
+                    </h3>
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <input type="text" id="input-mdp-team" placeholder="Wpisz nazwę drużyny (np. OSP Krzanowice MDP)" class="flex-1 px-4 py-2.5 border border-slate-300 rounded-xl focus:ring-2 focus:ring-red-500 focus:outline-none text-sm">
+                        <button onclick="addTeam('mdp')" class="bg-slate-800 hover:bg-slate-900 text-white px-5 py-2.5 rounded-xl font-bold text-sm transition">
+                            Dodaj drużynę
+                        </button>
+                    </div>
+                    <!-- Lista zgłoszonych przed losowaniem -->
+                    <div class="mt-4">
+                        <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Zgłoszone drużyny (<span id="count-mdp">0</span>):</p>
+                        <div id="list-mdp-preliminary" class="flex flex-wrap gap-2 text-xs">
+                            <span class="text-slate-400 italic">Brak zgłoszonych drużyn. Dodaj pierwsze jednostki.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AKCJE LOSOWANIA -->
+                <div class="flex flex-wrap justify-between items-center gap-4 bg-red-50 p-4 rounded-xl border border-red-100">
+                    <div>
+                        <h4 class="font-bold text-red-900 text-sm">Oficjalne Losowanie MDP</h4>
+                        <p class="text-xs text-red-600">Kliknięcie wymiesza listę i przydzieli unikalne numery startowe.</p>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="drawNumbers('mdp')" class="bg-red-600 hover:bg-red-700 text-white font-bold px-5 py-2.5 rounded-xl text-sm shadow-md hover:shadow-lg transition flex items-center gap-2">
+                            🎲 Przeprowadź Losowanie MDP
+                        </button>
+                        <button onclick="resetCategory('mdp')" class="bg-white hover:bg-slate-100 text-slate-600 border border-slate-300 font-semibold px-3 py-2.5 rounded-xl text-xs transition">
+                            Resetuj
+                        </button>
+                    </div>
+                </div>
+
+                <!-- TABELA STARTOWA I WYNIKOWA -->
+                <div class="overflow-x-auto rounded-xl border border-slate-200 shadow-sm">
+                    <table class="w-full text-left text-sm">
+                        <thead class="bg-slate-100 text-slate-700 uppercase text-xs tracking-wider">
+                            <tr>
+                                <th class="p-3 text-center w-16">Nr</th>
+                                <th class="p-3">Nazwa Drużyny</th>
+                                <th class="p-3 text-center w-32">Czas (sek)</th>
+                                <th class="p-3 text-center w-32">Punkty Karne</th>
+                                <th class="p-3 text-center w-32">Wynik Łączny</th>
+                                <th class="p-3 text-center w-24">Miejsce</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-body-mdp" class="divide-y divide-slate-200 bg-white">
+                            <tr>
+                                <td colspan="6" class="p-8 text-center text-slate-400 italic">Lista startowa jest pusta. Dodaj drużyny i kliknij „Przeprowadź Losowanie”.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- SKRYPT LOGIKI LOSOWANIA I WYNIKÓW -->
+        <script>
+            // Struktura przechowywania danych
+            const competitionData = {
+                ddp: { preliminary: [], drawn: [], isDrawn: false },
+                mdp: { preliminary: [], drawn: [], isDrawn: false }
+            };
+
+            // Przełączanie Zakładek DDP / MDP
+            function switchTab(category) {
+                const btnDDP = document.getElementById('tab-btn-ddp');
+                const btnMDP = document.getElementById('tab-btn-mdp');
+                const contentDDP = document.getElementById('tab-content-ddp');
+                const contentMDP = document.getElementById('tab-content-mdp');
+
+                if (category === 'ddp') {
+                    btnDDP.className = "px-6 py-2.5 rounded-lg text-sm font-bold transition-all shadow-sm bg-red-600 text-white";
+                    btnMDP.className = "px-6 py-2.5 rounded-lg text-sm font-bold transition-all text-slate-600 hover:text-slate-900";
+                    contentDDP.classList.remove('hidden');
+                    contentMDP.classList.add('hidden');
+                } else {
+                    btnMDP.className = "px-6 py-2.5 rounded-lg text-sm font-bold transition-all shadow-sm bg-red-600 text-white";
+                    btnDDP.className = "px-6 py-2.5 rounded-lg text-sm font-bold transition-all text-slate-600 hover:text-slate-900";
+                    contentMDP.classList.remove('hidden');
+                    contentDDP.classList.add('hidden');
+                }
+            }
+
+            // Dodawanie drużyny
+            function addTeam(cat) {
+                const input = document.getElementById(`input-${cat}-team`);
+                const name = input.value.trim();
+                
+                if (!name) return alert('Wpisz nazwę drużyny!');
+                if (competitionData[cat].preliminary.includes(name)) return alert('Ta drużyna jest już na liście!');
+
+                competitionData[cat].preliminary.push(name);
+                input.value = '';
+                renderPreliminary(cat);
+            }
+
+            // Wyświetlanie wstępnej listy zgłoszeń
+            function renderPreliminary(cat) {
+                const container = document.getElementById(`list-${cat}-preliminary`);
+                const countElem = document.getElementById(`count-${cat}`);
+                const teams = competitionData[cat].preliminary;
+
+                countElem.textContent = teams.length;
+
+                if (teams.length === 0) {
+                    container.innerHTML = `<span class="text-slate-400 italic">Brak zgłoszonych drużyn. Dodaj pierwsze jednostki.</span>`;
+                    return;
+                }
+
+                container.innerHTML = teams.map((team, idx) => `
+                    <span class="bg-white border border-slate-300 text-slate-700 px-3 py-1 rounded-lg flex items-center gap-2 font-medium">
+                        ${team}
+                        <button onclick="removeTeam('${cat}', ${idx})" class="text-slate-400 hover:text-red-600 font-bold ml-1">✕</button>
+                    </span>
+                `).join('');
+            }
+
+            // Usuwanie drużyny z listy zgłoszeń
+            function removeTeam(cat, index) {
+                competitionData[cat].preliminary.splice(index, 1);
+                renderPreliminary(cat);
+            }
+
+            // Przeprowadzenie Losowania (Algorytm Fisher-Yates)
+            function drawNumbers(cat) {
+                const teams = [...competitionData[cat].preliminary];
+                if (teams.length === 0) return alert('Dodaj przynajmniej jedną drużynę przed losowaniem!');
+
+                // Mieszanie tablicy
+                for (let i = teams.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [teams[i], teams[j]] = [teams[j], teams[i]];
+                }
+
+                // Mapowanie wylosowanej kolejności
+                competitionData[cat].drawn = teams.map((name, index) => ({
+                    number: index + 1,
+                    name: name,
+                    time: '',
+                    penalties: '',
+                    total: null,
+                    rank: '-'
+                }));
+
+                competitionData[cat].isDrawn = true;
+                renderTable(cat);
+            }
+
+            // Aktualizacja wyników czasowych / punktów
+            function updateScore(cat, index, field, value) {
+                const team = competitionData[cat].drawn[index];
+                team[field] = value !== '' ? parseFloat(value) : '';
+
+                // Wyliczanie sumy
+                const t = parseFloat(team.time) || 0;
+                const p = parseFloat(team.penalties) || 0;
+
+                if (team.time !== '') {
+                    team.total = parseFloat((t + p).toFixed(2));
+                } else {
+                    team.total = null;
+                }
+
+                calculateRanks(cat);
+                renderTable(cat);
+            }
+
+            // Automatyczne przeliczanie miejsc
+            function calculateRanks(cat) {
+                const drawn = competitionData[cat].drawn;
+                
+                // Filtrujemy drużyny z wpisanym czasem
+                const finished = drawn.filter(d => d.total !== null);
+                
+                // Sortujemy wg wyniku łącznego (najkrótszy czas = 1 miejsce)
+                finished.sort((a, b) => a.total - b.total);
+
+                // Przypisywanie miejsc
+                drawn.forEach(team => {
+                    if (team.total === null) {
+                        team.rank = '-';
+                    } else {
+                        const rank = finished.findIndex(f => f.total === team.total) + 1;
+                        team.rank = rank;
+                    }
+                });
+            }
+
+            // Generowanie Tabeli Wyników
+            function renderTable(cat) {
+                const tbody = document.getElementById(`table-body-${cat}`);
+                const data = competitionData[cat].drawn;
+
+                if (!competitionData[cat].isDrawn || data.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="6" class="p-8 text-center text-slate-400 italic">Lista startowa jest pusta. Dodaj drużyny i kliknij „Przeprowadź Losowanie”.</td></tr>`;
+                    return;
+                }
+
+                tbody.innerHTML = data.map((item, idx) => `
+                    <tr class="hover:bg-slate-50/80 transition">
+                        <td class="p-3 text-center font-black text-red-600 bg-slate-50/50">${item.number}</td>
+                        <td class="p-3 font-bold text-slate-800">${item.name}</td>
+                        <td class="p-3 text-center">
+                            <input type="number" step="0.01" value="${item.time}" placeholder="0.00" 
+                                onchange="updateScore('${cat}', ${idx}, 'time', this.value)"
+                                class="w-24 px-2 py-1 border border-slate-300 rounded text-center focus:ring-1 focus:ring-red-500 text-sm">
+                        </td>
+                        <td class="p-3 text-center">
+                            <input type="number" step="1" value="${item.penalties}" placeholder="0" 
+                                onchange="updateScore('${cat}', ${idx}, 'penalties', this.value)"
+                                class="w-20 px-2 py-1 border border-slate-300 rounded text-center focus:ring-1 focus:ring-red-500 text-sm">
+                        </td>
+                        <td class="p-3 text-center font-bold text-slate-900">
+                            ${item.total !== null ? item.total + ' s' : '<span class="text-slate-300">-</span>'}
+                        </td>
+                        <td class="p-3 text-center">
+                            ${item.rank !== '-' ? `<span class="inline-block w-7 h-7 leading-7 rounded-full font-extrabold text-xs ${item.rank === 1 ? 'bg-amber-400 text-amber-950' : item.rank === 2 ? 'bg-slate-300 text-slate-800' : item.rank === 3 ? 'bg-amber-700 text-white' : 'bg-slate-100 text-slate-600'}">${item.rank}</span>` : '-'}
+                        </td>
+                    </tr>
+                `).join('');
+            }
+
+            // Resetowanie danej kategorii
+            function resetCategory(cat) {
+                if (confirm(`Czy na pewno chcesz zresetować losowanie i wyniki dla ${cat.toUpperCase()}?`)) {
+                    competitionData[cat] = { preliminary: [], drawn: [], isDrawn: false };
+                    renderPreliminary(cat);
+                    renderTable(cat);
+                }
+            }
+        </script>
 
     </main>
 
