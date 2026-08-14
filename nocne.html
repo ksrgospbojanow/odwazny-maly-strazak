@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="pl" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nocne Zawody Strażackie - OSP Bojanów</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        fireRed: '#dc2626',
+                        fireYellow: '#f59e0b',
+                        nightDark: '#0b0f17',
+                        nightCard: '#151c28',
+                        nightBorder: '#232d3f'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-nightDark text-slate-100 font-sans min-h-screen flex flex-col selection:bg-red-600 selection:text-white">
+
+    <!-- GÓRNE MENU NAWIGACYJNE -->
+    <nav class="bg-slate-950/80 backdrop-blur-md border-b border-slate-800 sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 flex flex-wrap justify-center sm:justify-start gap-2 py-3">
+            <a href="nocne.html" class="px-4 py-2 rounded-xl text-sm font-bold bg-gradient-to-r from-red-700 to-red-600 text-white shadow-lg shadow-red-900/30 flex items-center gap-2">
+                <i class="fa-solid fa-moon text-yellow-300"></i> Home (Zawody Nocne)
+            </a>
+            <a href="nocne-wyniki.html" class="px-4 py-2 rounded-xl text-sm font-bold bg-slate-900 text-slate-300 hover:bg-slate-800 hover:text-white transition flex items-center gap-2 border border-slate-800">
+                <i class="fa-solid fa-trophy text-amber-400"></i> Wyniki na żywo
+            </a>
+            <a href="index.html" class="px-4 py-2 rounded-xl text-sm font-bold bg-slate-900 text-slate-300 hover:bg-slate-800 hover:text-white transition flex items-center gap-2 border border-slate-800">
+                <i class="fa-solid fa-child text-red-400"></i> Odważny Mały Strażak
+            </a>
+        </div>
+    </nav>
+
+    <!-- BANNER HERO -->
+    <header class="relative bg-slate-900 border-b border-red-900/40 overflow-hidden py-12 px-4">
+        <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-red-900/20 via-nightDark/80 to-nightDark"></div>
+        
+        <div class="max-w-6xl mx-auto relative z-10 flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
+            <div class="flex flex-col sm:flex-row items-center gap-5">
+                <div class="w-20 h-20 bg-slate-900/90 rounded-2xl p-2.5 border-2 border-red-500/30 shadow-2xl shadow-red-600/20 flex items-center justify-center shrink-0">
+                    <img src="herb-osp-bojanow.png" alt="OSP Bojanów" class="max-h-full object-contain" onerror="this.outerHTML='<i class=\'fa-solid fa-fire-flame-curved text-red-500 text-4xl\'></i>'">
+                </div>
+                <div>
+                    <div class="flex flex-wrap items-center justify-center md:justify-start gap-2 mb-1">
+                        <span class="bg-red-500/10 text-red-400 border border-red-500/20 text-xs font-bold px-2.5 py-0.5 rounded-full uppercase tracking-widest flex items-center gap-1">
+                            <i class="fa-solid fa-moon text-yellow-400"></i> Start Godz. 20:00
+                        </span>
+                        <span class="bg-amber-500/10 text-amber-400 border border-amber-500/20 text-xs font-bold px-2.5 py-0.5 rounded-full uppercase tracking-widest">
+                            Grupa A & C
+                        </span>
+                    </div>
+                    <h1 class="text-3xl sm:text-4xl md:text-5xl font-black uppercase tracking-tight text-white drop-shadow-md">
+                        Nocne Zawody <span class="text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-orange-400 to-yellow-400">Strażackie</span>
+                    </h1>
+                    <p class="text-slate-400 text-sm sm:text-base font-medium mt-1">
+                        Sprawdź swoją formę po zmroku! • OSP KSRG Bojanów
+                    </p>
+                </div>
+            </div>
+
+            <div>
+                <a href="nocne-wyniki.html" class="bg-red-600 hover:bg-red-700 text-white font-black px-6 py-3 rounded-xl text-sm transition flex items-center gap-2 shadow-lg shadow-red-900/50">
+                    <i class="fa-solid fa-trophy"></i> ZOBACZ WYNIK NA ŻYWO
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 py-8 space-y-8 flex-1">
+
+        <!-- OPIS ZAWODÓW NOCNYCH -->
+        <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="md:col-span-2 bg-nightCard p-6 sm:p-8 rounded-2xl border border-nightBorder shadow-xl space-y-4">
+                <h2 class="text-2xl font-black text-white flex items-center gap-2">
+                    <i class="fa-solid fa-bolt text-yellow-400"></i> Bojówki Po Zmroku – Tradycja i Emocje!
+                </h2>
+                <p class="text-slate-300 text-sm leading-relaxed">
+                    Nocne Zawody Strażackie w Bojanowie to jedno z najbardziej widowiskowych wydarzeń w całym powiecie! Gdy słońce chowa się za horyzont, sztuczne oświetlenie rozświetla tor ćwiczeń na boisku LKS Bojanów, a syreny i głośny doping kibiców tworzą niezapomniany klimat. Drużyny z całej okolicy stają do walki o miano najszybszych w nocy!
+                </p>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
+                    <div class="bg-slate-900/60 p-3.5 rounded-xl border border-slate-800/80 flex items-center gap-3">
+                        <i class="fa-solid fa-stopwatch text-red-500 text-2xl"></i>
+                        <div>
+                            <p class="text-xs text-slate-400 uppercase font-bold">Pomiar czasu</p>
+                            <p class="text-sm font-extrabold text-white">Elektroniczny</p>
+                        </div>
+                    </div>
+                    <div class="bg-slate-900/60 p-3.5 rounded-xl border border-slate-800/80 flex items-center gap-3">
+                        <i class="fa-solid fa-utensils text-amber-500 text-2xl"></i>
+                        <div>
+                            <p class="text-xs text-slate-400 uppercase font-bold">Strefa Gastro</p>
+                            <p class="text-sm font-extrabold text-white">Bogaty Bufet</p>
+                        </div>
+                    </div>
+                    <div class="bg-slate-900/60 p-3.5 rounded-xl border border-slate-800/80 flex items-center gap-3">
+                        <i class="fa-solid fa-beer-mug-empty text-yellow-400 text-2xl"></i>
+                        <div>
+                            <p class="text-xs text-slate-400 uppercase font-bold">Atmosfera</p>
+                            <p class="text-sm font-extrabold text-white">Świetna Zabawa</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- REGULAMIN & DOKUMENTY -->
+            <div class="bg-nightCard p-6 rounded-2xl border border-nightBorder shadow-xl flex flex-col justify-between space-y-4">
+                <div>
+                    <h3 class="text-lg font-bold text-white mb-2 flex items-center gap-2">
+                        <i class="fa-solid fa-file-pdf text-red-500"></i> Regulamin i Pliki
+                    </h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        Pobierz aktualny regulamin zawodów nocnych, zasady przeprowadzenia ćwiczenia bojowego oraz kartę zgłoszeniową.
+                    </p>
+                </div>
+                <div class="space-y-2">
+                    <a href="regulamin-nocne.pdf" target="_blank" class="w-full bg-slate-900 hover:bg-slate-800 text-red-400 border border-red-900/40 font-bold py-3 px-4 rounded-xl text-xs flex items-center justify-between transition group">
+                        <span><i class="fa-solid fa-download mr-2 group-hover:bounce"></i> Pobierz Regulamin (PDF)</span>
+                        <span class="text-slate-500">PDF</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- MAPA I LOKALIZACJA -->
+        <section class="bg-nightCard p-6 rounded-2xl border border-nightBorder shadow-xl space-y-4">
+            <h2 class="text-xl font-bold text-white flex items-center gap-2">
+                <i class="fa-solid fa-location-dot text-red-500"></i> Miejsce Zawodów
+            </h2>
+            <p class="text-sm text-slate-300">
+                Boisko Sportowe LKS Bojanów (ul. Parkowa, 47-470 Bojanów, gmina Krzanowice).
+            </p>
+            <div class="w-full h-72 rounded-xl overflow-hidden border border-slate-800">
+                <iframe 
+                    title="Mapa LKS Bojanów"
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2557.5315570081295!2d18.1884!3d50.0152!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47114f0882e308f9%3A0x6331bd462dfd13fa!2sLKS%20Bojan%C3%B3w!5e0!3m2!1spl!2spl!4v1700000000000!5m2!1spl!2spl" 
+                    class="w-full h-full border-0" 
+                    allowfullscreen="" 
+                    loading="lazy">
+                </iframe>
+            </div>
+        </section>
+
+        <!-- SPONSORZY -->
+        <section class="bg-nightCard p-6 rounded-2xl border border-nightBorder shadow-xl text-center space-y-4">
+            <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest">Sponsorzy i Patronat Honorowy</h3>
+            <div class="flex flex-wrap justify-center items-center gap-4">
+                <span class="text-slate-300 font-bold text-sm bg-slate-900 px-4 py-2 rounded-xl border border-slate-800">Gmina Krzanowice</span>
+                <span class="text-slate-300 font-bold text-sm bg-slate-900 px-4 py-2 rounded-xl border border-slate-800">OSP KSRG Bojanów</span>
+                <span class="text-slate-300 font-bold text-sm bg-slate-900 px-4 py-2 rounded-xl border border-slate-800">LKS Bojanów</span>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-950 text-slate-500 text-center py-6 border-t border-slate-900 text-xs">
+        <p class="font-bold text-slate-300">Ochotnicza Straż Pożarna w Bojanowie</p>
+        <p class="mt-1">&copy; 2026 Nocne Zawody Strażackie. Wszystkie prawa zastrzeżone.</p>
+    </footer>
+
+</body>
+</html>
