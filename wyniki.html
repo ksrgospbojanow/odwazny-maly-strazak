@@ -67,19 +67,21 @@
                 </div>
 
                 <!-- PRZEŁĄCZNIK KATEGORII -->
-                <div class="bg-slate-100 p-1.5 rounded-xl flex gap-2 border border-slate-200">
-                    <button onclick="switchTab('ddp')" id="tab-btn-ddp" class="px-5 py-2 rounded-lg text-sm font-bold transition-all shadow-sm bg-red-600 text-white">
+                <div class="bg-slate-100 p-1.5 rounded-xl flex flex-wrap gap-2 border border-slate-200 justify-center">
+                    <button onclick="switchTab('ddp')" id="tab-btn-ddp" class="px-4 py-2 rounded-lg text-sm font-bold transition-all shadow-sm bg-red-600 text-white">
                         DDP (Dziecięce)
                     </button>
-                    <button onclick="switchTab('mdp')" id="tab-btn-mdp" class="px-5 py-2 rounded-lg text-sm font-bold transition-all text-slate-600 hover:text-slate-900">
-                        MDP (Młodzieżowe)
+                    <button onclick="switchTab('mdp_chlopcy')" id="tab-btn-mdp_chlopcy" class="px-4 py-2 rounded-lg text-sm font-bold transition-all text-slate-600 hover:text-slate-900">
+                        MDP Chłopcy
+                    </button>
+                    <button onclick="switchTab('mdp_dziewczyny')" id="tab-btn-mdp_dziewczyny" class="px-4 py-2 rounded-lg text-sm font-bold transition-all text-slate-600 hover:text-slate-900">
+                        MDP Dziewczęta
                     </button>
                 </div>
             </div>
 
             <!-- KATEGORIA DDP -->
             <div id="tab-content-ddp" class="space-y-6">
-                <!-- PANEL SĘDZIEGO DDP -->
                 <div id="admin-controls-ddp" class="hidden bg-red-50 p-4 sm:p-6 rounded-2xl border border-red-200 space-y-4">
                     <h3 class="text-sm font-bold text-red-900 uppercase tracking-wider flex items-center gap-2">
                         <i class="fa-solid fa-sliders"></i> Panel Sterowania Sędziego - DDP
@@ -101,7 +103,6 @@
                     </div>
                 </div>
 
-                <!-- TABELA DDP -->
                 <div class="overflow-x-auto rounded-xl border border-slate-200 shadow-sm">
                     <table class="w-full text-left text-sm">
                         <thead class="bg-slate-100 text-slate-700 uppercase text-xs tracking-wider">
@@ -120,28 +121,26 @@
                 </div>
             </div>
 
-            <!-- KATEGORIA MDP -->
-            <div id="tab-content-mdp" class="space-y-6 hidden">
-                <!-- PANEL SĘDZIEGO MDP -->
-                <div id="admin-controls-mdp" class="hidden bg-red-50 p-4 sm:p-6 rounded-2xl border border-red-200 space-y-4">
+            <!-- KATEGORIA MDP CHŁOPCY -->
+            <div id="tab-content-mdp_chlopcy" class="space-y-6 hidden">
+                <div id="admin-controls-mdp_chlopcy" class="hidden bg-red-50 p-4 sm:p-6 rounded-2xl border border-red-200 space-y-4">
                     <h3 class="text-sm font-bold text-red-900 uppercase tracking-wider flex items-center gap-2">
-                        <i class="fa-solid fa-sliders"></i> Panel Sterowania Sędziego - MDP
+                        <i class="fa-solid fa-sliders"></i> Panel Sterowania Sędziego - MDP Chłopcy
                     </h3>
                     <div class="flex flex-col sm:flex-row gap-2">
-                        <input type="text" id="input-mdp-team" placeholder="Wpisz nazwę nowej drużyny MDP" class="flex-1 px-4 py-2 border border-gray-300 rounded-xl text-sm">
-                        <button onclick="addTeam('mdp')" class="bg-slate-800 hover:bg-slate-900 text-white px-4 py-2 rounded-xl text-sm font-bold">Dodaj Drużynę</button>
+                        <input type="text" id="input-mdp_chlopcy-team" placeholder="Wpisz nazwę nowej drużyny MDP Chłopcy" class="flex-1 px-4 py-2 border border-gray-300 rounded-xl text-sm">
+                        <button onclick="addTeam('mdp_chlopcy')" class="bg-slate-800 hover:bg-slate-900 text-white px-4 py-2 rounded-xl text-sm font-bold">Dodaj Drużynę</button>
                     </div>
                     <div class="flex flex-wrap gap-2 pt-2 border-t border-red-200">
-                        <button onclick="drawNumbers('mdp')" class="bg-red-600 hover:bg-red-700 text-white font-bold px-4 py-2 rounded-xl text-sm shadow">
-                            🎲 Wylosuj Numery (MDP)
+                        <button onclick="drawNumbers('mdp_chlopcy')" class="bg-red-600 hover:bg-red-700 text-white font-bold px-4 py-2 rounded-xl text-sm shadow">
+                            🎲 Wylosuj Numery (Chłopcy)
                         </button>
-                        <button onclick="resetCategory('mdp')" class="bg-white border border-red-300 text-red-700 font-semibold px-3 py-2 rounded-xl text-xs hover:bg-red-100">
-                            Resetuj MDP
+                        <button onclick="resetCategory('mdp_chlopcy')" class="bg-white border border-red-300 text-red-700 font-semibold px-3 py-2 rounded-xl text-xs hover:bg-red-100">
+                            Resetuj MDP Chłopcy
                         </button>
                     </div>
                 </div>
 
-                <!-- TABELA MDP -->
                 <div class="overflow-x-auto rounded-xl border border-slate-200 shadow-sm">
                     <table class="w-full text-left text-sm">
                         <thead class="bg-slate-100 text-slate-700 uppercase text-xs tracking-wider">
@@ -155,7 +154,45 @@
                                 <th class="admin-only-col p-3 text-center w-12 hidden">Akcja</th>
                             </tr>
                         </thead>
-                        <tbody id="table-body-mdp" class="divide-y divide-slate-200 bg-white"></tbody>
+                        <tbody id="table-body-mdp_chlopcy" class="divide-y divide-slate-200 bg-white"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- KATEGORIA MDP DZIEWCZĘTA -->
+            <div id="tab-content-mdp_dziewczyny" class="space-y-6 hidden">
+                <div id="admin-controls-mdp_dziewczyny" class="hidden bg-red-50 p-4 sm:p-6 rounded-2xl border border-red-200 space-y-4">
+                    <h3 class="text-sm font-bold text-red-900 uppercase tracking-wider flex items-center gap-2">
+                        <i class="fa-solid fa-sliders"></i> Panel Sterowania Sędziego - MDP Dziewczęta
+                    </h3>
+                    <div class="flex flex-col sm:flex-row gap-2">
+                        <input type="text" id="input-mdp_dziewczyny-team" placeholder="Wpisz nazwę nowej drużyny MDP Dziewczęta" class="flex-1 px-4 py-2 border border-gray-300 rounded-xl text-sm">
+                        <button onclick="addTeam('mdp_dziewczyny')" class="bg-slate-800 hover:bg-slate-900 text-white px-4 py-2 rounded-xl text-sm font-bold">Dodaj Drużynę</button>
+                    </div>
+                    <div class="flex flex-wrap gap-2 pt-2 border-t border-red-200">
+                        <button onclick="drawNumbers('mdp_dziewczyny')" class="bg-red-600 hover:bg-red-700 text-white font-bold px-4 py-2 rounded-xl text-sm shadow">
+                            🎲 Wylosuj Numery (Dziewczęta)
+                        </button>
+                        <button onclick="resetCategory('mdp_dziewczyny')" class="bg-white border border-red-300 text-red-700 font-semibold px-3 py-2 rounded-xl text-xs hover:bg-red-100">
+                            Resetuj MDP Dziewczęta
+                        </button>
+                    </div>
+                </div>
+
+                <div class="overflow-x-auto rounded-xl border border-slate-200 shadow-sm">
+                    <table class="w-full text-left text-sm">
+                        <thead class="bg-slate-100 text-slate-700 uppercase text-xs tracking-wider">
+                            <tr>
+                                <th class="p-3 text-center w-14">Nr</th>
+                                <th class="p-3">Nazwa Drużyny</th>
+                                <th class="p-3 text-center w-28 sm:w-36">Czas (s)</th>
+                                <th class="p-3 text-center w-28 sm:w-36">Karne (s)</th>
+                                <th class="p-3 text-center w-28 sm:w-36">Wynik Łączny</th>
+                                <th class="p-3 text-center w-20">Miejsce</th>
+                                <th class="admin-only-col p-3 text-center w-12 hidden">Akcja</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-body-mdp_dziewczyny" class="divide-y divide-slate-200 bg-white"></tbody>
                     </table>
                 </div>
             </div>
@@ -184,8 +221,13 @@
                 isDrawn: false,
                 ranksRevealed: false
             },
-            mdp: {
+            mdp_chlopcy: {
                 teams: ["MDP Bojanów", "MDP Tworków 1", "MDP Tworków 2", "MDP Babice", "MDP Wojnowice", "MDP Pietraszyn", "MDP Krzanowice", "MDP Krzyżanowice 1", "MDP Krzyżanowice 2", "MDP Ostrożnica", "MDP Borucin"],
+                drawn: [],
+                isDrawn: false
+            },
+            mdp_dziewczyny: {
+                teams: [],
                 drawn: [],
                 isDrawn: false
             }
@@ -210,9 +252,17 @@
                     const val = snapshot.val();
                     if (val) {
                         competitionData = val;
+                        // Jeśli w bazie była stara struktura mdp, przekonwertuj bezpiecznie
+                        if (!competitionData.mdp_chlopcy && competitionData.mdp) {
+                            competitionData.mdp_chlopcy = competitionData.mdp;
+                        }
+                        if (!competitionData.mdp_dziewczyny) {
+                            competitionData.mdp_dziewczyny = { teams: [], drawn: [], isDrawn: false };
+                        }
                     } else {
                         ensureInitialStructure('ddp');
-                        ensureInitialStructure('mdp');
+                        ensureInitialStructure('mdp_chlopcy');
+                        ensureInitialStructure('mdp_dziewczyny');
                         saveData();
                     }
                     
@@ -241,13 +291,17 @@
                 try { competitionData = JSON.parse(local); } catch(e){}
             }
             ensureInitialStructure('ddp');
-            ensureInitialStructure('mdp');
+            ensureInitialStructure('mdp_chlopcy');
+            ensureInitialStructure('mdp_dziewczyny');
         }
 
         function ensureInitialStructure(cat) {
+            if (!competitionData[cat]) {
+                competitionData[cat] = { teams: [], drawn: [], isDrawn: false };
+            }
             if (!competitionData[cat].drawn || competitionData[cat].drawn.length === 0) {
                 competitionData[cat].isDrawn = false;
-                competitionData[cat].drawn = competitionData[cat].teams.map((name) => ({
+                competitionData[cat].drawn = (competitionData[cat].teams || []).map((name) => ({
                     number: null,
                     name: name,
                     time: '',
@@ -277,42 +331,43 @@
         function updateAdminUI() {
             const btn = document.getElementById('admin-auth-btn');
             const controlsDDP = document.getElementById('admin-controls-ddp');
-            const controlsMDP = document.getElementById('admin-controls-mdp');
+            const controlsMDPChlopcy = document.getElementById('admin-controls-mdp_chlopcy');
+            const controlsMDPDziewczyny = document.getElementById('admin-controls-mdp_dziewczyny');
             const adminCols = document.querySelectorAll('.admin-only-col');
 
             if (isAdmin) {
                 btn.innerHTML = `<i class="fa-solid fa-unlock"></i> Wyloguj Sędziego`;
                 btn.className = "bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-4 py-2.5 rounded-xl text-sm shadow-md";
                 controlsDDP.classList.remove('hidden');
-                controlsMDP.classList.remove('hidden');
+                controlsMDPChlopcy.classList.remove('hidden');
+                controlsMDPDziewczyny.classList.remove('hidden');
                 adminCols.forEach(col => col.classList.remove('hidden'));
             } else {
                 btn.innerHTML = `<i class="fa-solid fa-lock"></i> Panel Sędziowski`;
                 btn.className = "bg-slate-900 hover:bg-black text-white font-bold px-4 py-2.5 rounded-xl text-sm shadow-md";
                 controlsDDP.classList.add('hidden');
-                controlsMDP.classList.add('hidden');
+                controlsMDPChlopcy.classList.add('hidden');
+                controlsMDPDziewczyny.classList.add('hidden');
                 adminCols.forEach(col => col.classList.add('hidden'));
             }
             renderTables();
         }
 
         function switchTab(category) {
-            const btnDDP = document.getElementById('tab-btn-ddp');
-            const btnMDP = document.getElementById('tab-btn-mdp');
-            const contentDDP = document.getElementById('tab-content-ddp');
-            const contentMDP = document.getElementById('tab-content-mdp');
-
-            if (category === 'ddp') {
-                btnDDP.className = "px-5 py-2 rounded-lg text-sm font-bold shadow bg-red-600 text-white";
-                btnMDP.className = "px-5 py-2 rounded-lg text-sm font-bold text-slate-600 hover:text-slate-900";
-                contentDDP.classList.remove('hidden');
-                contentMDP.classList.add('hidden');
-            } else {
-                btnMDP.className = "px-5 py-2 rounded-lg text-sm font-bold shadow bg-red-600 text-white";
-                btnDDP.className = "px-5 py-2 rounded-lg text-sm font-bold text-slate-600 hover:text-slate-900";
-                contentMDP.classList.remove('hidden');
-                contentDDP.classList.add('hidden');
-            }
+            const categories = ['ddp', 'mdp_chlopcy', 'mdp_dziewczyny'];
+            
+            categories.forEach(cat => {
+                const btn = document.getElementById(`tab-btn-${cat}`);
+                const content = document.getElementById(`tab-content-${cat}`);
+                
+                if (cat === category) {
+                    btn.className = "px-4 py-2 rounded-lg text-sm font-bold shadow bg-red-600 text-white";
+                    content.classList.remove('hidden');
+                } else {
+                    btn.className = "px-4 py-2 rounded-lg text-sm font-bold text-slate-600 hover:text-slate-900";
+                    content.classList.add('hidden');
+                }
+            });
         }
 
         function addTeam(cat) {
@@ -341,24 +396,20 @@
             if (!isAdmin) return;
             const team = competitionData[cat].drawn[index];
             if (confirm(`Czy na pewno chcesz usunąć drużynę: "${team.name}"?`)) {
-                
-                // Usuń z tablicy wylosowanej
                 competitionData[cat].drawn.splice(index, 1);
                 
-                // Usuń z listy podstawowej
                 const baseIdx = competitionData[cat].teams.indexOf(team.name);
                 if (baseIdx > -1) {
                     competitionData[cat].teams.splice(baseIdx, 1);
                 }
 
-                // Jeśli kategoria była już wylosowana, przenumeruj pozostałe drużyny
                 if (competitionData[cat].isDrawn) {
                     competitionData[cat].drawn.forEach((item, idx) => {
                         item.number = idx + 1;
                     });
                 }
 
-                if (cat === 'mdp') calculateRanksMDP();
+                if (cat !== 'ddp') calculateRanksMDP(cat);
                 saveData();
             }
         }
@@ -368,7 +419,6 @@
             let list = competitionData[cat].drawn.map(t => t.name);
             if (list.length === 0) return alert('Brak drużyn do losowania!');
 
-            // Algorytm losowego mieszania (Fisher-Yates)
             for (let i = list.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
                 [list[i], list[j]] = [list[j], list[i]];
@@ -387,7 +437,7 @@
             if (cat === 'ddp') competitionData.ddp.ranksRevealed = false;
 
             saveData();
-            alert(`🎲 Wylosowano kolejność dla ${cat.toUpperCase()}! Numery startowe są widoczne.`);
+            alert(`🎲 Wylosowano kolejność! Numery startowe są widoczne.`);
         }
 
         function toggleDdpRanks() {
@@ -410,15 +460,15 @@
                 team.total = null;
             }
 
-            if (cat === 'mdp') {
-                calculateRanksMDP();
+            if (cat !== 'ddp') {
+                calculateRanksMDP(cat);
             }
 
             saveData();
         }
 
-        function calculateRanksMDP() {
-            const drawn = competitionData.mdp.drawn;
+        function calculateRanksMDP(cat) {
+            const drawn = competitionData[cat].drawn;
             const finished = drawn.filter(d => d.total !== null && !isNaN(d.total));
             finished.sort((a, b) => a.total - b.total);
 
@@ -433,7 +483,8 @@
 
         function renderTables() {
             renderTable('ddp');
-            renderTable('mdp');
+            renderTable('mdp_chlopcy');
+            renderTable('mdp_dziewczyny');
         }
 
         function renderTable(cat) {
@@ -441,16 +492,14 @@
             if (!tbody) return;
 
             const categoryInfo = competitionData[cat];
-            const data = categoryInfo.drawn;
+            const data = categoryInfo ? categoryInfo.drawn : [];
 
             if (!data || data.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="7" class="p-6 text-center text-slate-400 italic">Brak zarejestrowanych drużyn.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="7" class="p-6 text-center text-slate-400 italic">Brak zarejestrowanych drużyn w tej kategorii.</td></tr>`;
                 return;
             }
 
             tbody.innerHTML = data.map((item, idx) => {
-                // Czy numer startowy ma się pokazywać:
-                // Pokazuje się jeśli kategoria jest wylosowana (isDrawn) ORAZ obiekt posiada nadany numer.
                 const hasNum = categoryInfo.isDrawn && (item.number !== null && item.number !== undefined);
                 const displayNum = hasNum ? item.number : '-';
 
