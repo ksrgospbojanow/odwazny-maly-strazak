@@ -534,12 +534,24 @@
                 </iframe>
             </div>
         </section>
-        <!-- SEKCJA: LOSOWANIE I WYNIKI ZAWODÓW (DDP & MDP) -->
+        
+        <!-- SEKCJA: LOSOWANIE I WYNIKI ZAWODÓW (Z ZABEZPIECZENIEM PIN) -->
         <section class="bg-white p-6 md:p-10 rounded-2xl shadow-md border border-gray-100 my-10 max-w-6xl mx-auto" id="losowanie-section">
-            <div class="text-center mb-8">
-                <span class="bg-red-100 text-red-700 text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full">Panel Sędziowski & Organizacyjny</span>
-                <h2 class="text-3xl font-extrabold text-gray-900 mt-2">Losowanie Kolejności & Lista Startowa</h2>
-                <p class="text-gray-500 text-sm mt-1">Przeprowadź oficjalne losowanie numerów startowych, a następnie wprowadzaj czasy i uzyskane miejsca.</p>
+            
+            <!-- NAGŁÓWEK I PRZYCISK LOGOWANIA SĘDZIEGO -->
+            <div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4 border-b border-slate-100 pb-6">
+                <div class="text-center md:text-left">
+                    <span class="bg-red-100 text-red-700 text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full">Zawody Pożarnicze</span>
+                    <h2 class="text-3xl font-extrabold text-gray-900 mt-2">Lista Startowa & Wyniki</h2>
+                    <p class="text-gray-500 text-sm mt-1">Oficjalna kolejność startowa oraz wyniki na żywo.</p>
+                </div>
+
+                <!-- PRZYCISK ODBLOKOWANIA PANELA EDYCJI -->
+                <div>
+                    <button id="admin-auth-btn" onclick="toggleAdminPanel()" class="bg-slate-800 hover:bg-slate-900 text-white font-bold px-4 py-2.5 rounded-xl text-sm transition flex items-center gap-2 shadow-sm">
+                        <span>🔒</span> Odblokuj Panel Sędziowski
+                    </button>
+                </div>
             </div>
 
             <!-- PRZEŁĄCZNIK KATEGORII (TABS) -->
@@ -556,10 +568,10 @@
 
             <!-- TAB 1: DDP -->
             <div id="tab-content-ddp" class="space-y-6">
-                <!-- FORMULARZ DODAWANIA DRUŻYN -->
-                <div class="bg-slate-50 p-4 sm:p-6 rounded-2xl border border-slate-200">
+                <!-- FORMULARZ DODAWANIA DRUŻYN (Tylko dla Admina/Sędziego) -->
+                <div id="admin-controls-ddp" class="hidden bg-slate-50 p-4 sm:p-6 rounded-2xl border border-slate-200">
                     <h3 class="text-md font-bold text-slate-800 mb-3 flex items-center gap-2">
-                        <span>➕</span> Rejestracja drużyn DDP do losowania
+                        <span>➕</span> Rejestracja / Zarządzanie drużynami DDP
                     </h3>
                     <div class="flex flex-col sm:flex-row gap-3">
                         <input type="text" id="input-ddp-team" placeholder="Wpisz nazwę drużyny (np. OSP Bojanów DDP)" class="flex-1 px-4 py-2.5 border border-slate-300 rounded-xl focus:ring-2 focus:ring-red-500 focus:outline-none text-sm">
@@ -569,26 +581,24 @@
                     </div>
                     <!-- Lista zgłoszonych przed losowaniem -->
                     <div class="mt-4">
-                        <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Zgłoszone drużyny (<span id="count-ddp">0</span>):</p>
-                        <div id="list-ddp-preliminary" class="flex flex-wrap gap-2 text-xs">
-                            <span class="text-slate-400 italic">Brak zgłoszonych drużyn. Dodaj pierwsze jednostki.</span>
-                        </div>
+                        <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Zgłoszone drużyny do losowania (<span id="count-ddp">0</span>):</p>
+                        <div id="list-ddp-preliminary" class="flex flex-wrap gap-2 text-xs"></div>
                     </div>
-                </div>
 
-                <!-- AKCJE LOSOWANIA -->
-                <div class="flex flex-wrap justify-between items-center gap-4 bg-red-50 p-4 rounded-xl border border-red-100">
-                    <div>
-                        <h4 class="font-bold text-red-900 text-sm">Oficjalne Losowanie DDP</h4>
-                        <p class="text-xs text-red-600">Kliknięcie wymiesza listę i przydzieli unikalne numery startowe.</p>
-                    </div>
-                    <div class="flex gap-2">
-                        <button onclick="drawNumbers('ddp')" class="bg-red-600 hover:bg-red-700 text-white font-bold px-5 py-2.5 rounded-xl text-sm shadow-md hover:shadow-lg transition flex items-center gap-2">
-                            🎲 Przeprowadź Losowanie DDP
-                        </button>
-                        <button onclick="resetCategory('ddp')" class="bg-white hover:bg-slate-100 text-slate-600 border border-slate-300 font-semibold px-3 py-2.5 rounded-xl text-xs transition">
-                            Resetuj
-                        </button>
+                    <!-- Akcja losowania -->
+                    <div class="flex flex-wrap justify-between items-center gap-4 bg-red-50 p-4 rounded-xl border border-red-100 mt-6">
+                        <div>
+                            <h4 class="font-bold text-red-900 text-sm">Oficjalne Losowanie DDP</h4>
+                            <p class="text-xs text-red-600">Kliknięcie wymiesza listę i przydzieli unikalne numery startowe.</p>
+                        </div>
+                        <div class="flex gap-2">
+                            <button onclick="drawNumbers('ddp')" class="bg-red-600 hover:bg-red-700 text-white font-bold px-5 py-2.5 rounded-xl text-sm shadow-md hover:shadow-lg transition flex items-center gap-2">
+                                🎲 Przeprowadź Losowanie DDP
+                            </button>
+                            <button onclick="resetCategory('ddp')" class="bg-white hover:bg-slate-100 text-slate-600 border border-slate-300 font-semibold px-3 py-2.5 rounded-xl text-xs transition">
+                                Resetuj
+                            </button>
+                        </div>
                     </div>
                 </div>
 
@@ -605,21 +615,17 @@
                                 <th class="p-3 text-center w-24">Miejsce</th>
                             </tr>
                         </thead>
-                        <tbody id="table-body-ddp" class="divide-y divide-slate-200 bg-white">
-                            <tr>
-                                <td colspan="6" class="p-8 text-center text-slate-400 italic">Lista startowa jest pusta. Dodaj drużyny i kliknij „Przeprowadź Losowanie”.</td>
-                            </tr>
-                        </tbody>
+                        <tbody id="table-body-ddp" class="divide-y divide-slate-200 bg-white"></tbody>
                     </table>
                 </div>
             </div>
 
             <!-- TAB 2: MDP -->
             <div id="tab-content-mdp" class="space-y-6 hidden">
-                <!-- FORMULARZ DODAWANIA DRUŻYN -->
-                <div class="bg-slate-50 p-4 sm:p-6 rounded-2xl border border-slate-200">
+                <!-- FORMULARZ DODAWANIA DRUŻYN (Tylko dla Admina/Sędziego) -->
+                <div id="admin-controls-mdp" class="hidden bg-slate-50 p-4 sm:p-6 rounded-2xl border border-slate-200">
                     <h3 class="text-md font-bold text-slate-800 mb-3 flex items-center gap-2">
-                        <span>➕</span> Rejestracja drużyn MDP do losowania
+                        <span>➕</span> Rejestracja / Zarządzanie drużynami MDP
                     </h3>
                     <div class="flex flex-col sm:flex-row gap-3">
                         <input type="text" id="input-mdp-team" placeholder="Wpisz nazwę drużyny (np. OSP Krzanowice MDP)" class="flex-1 px-4 py-2.5 border border-slate-300 rounded-xl focus:ring-2 focus:ring-red-500 focus:outline-none text-sm">
@@ -629,26 +635,24 @@
                     </div>
                     <!-- Lista zgłoszonych przed losowaniem -->
                     <div class="mt-4">
-                        <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Zgłoszone drużyny (<span id="count-mdp">0</span>):</p>
-                        <div id="list-mdp-preliminary" class="flex flex-wrap gap-2 text-xs">
-                            <span class="text-slate-400 italic">Brak zgłoszonych drużyn. Dodaj pierwsze jednostki.</span>
-                        </div>
+                        <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Zgłoszone drużyny do losowania (<span id="count-mdp">0</span>):</p>
+                        <div id="list-mdp-preliminary" class="flex flex-wrap gap-2 text-xs"></div>
                     </div>
-                </div>
 
-                <!-- AKCJE LOSOWANIA -->
-                <div class="flex flex-wrap justify-between items-center gap-4 bg-red-50 p-4 rounded-xl border border-red-100">
-                    <div>
-                        <h4 class="font-bold text-red-900 text-sm">Oficjalne Losowanie MDP</h4>
-                        <p class="text-xs text-red-600">Kliknięcie wymiesza listę i przydzieli unikalne numery startowe.</p>
-                    </div>
-                    <div class="flex gap-2">
-                        <button onclick="drawNumbers('mdp')" class="bg-red-600 hover:bg-red-700 text-white font-bold px-5 py-2.5 rounded-xl text-sm shadow-md hover:shadow-lg transition flex items-center gap-2">
-                            🎲 Przeprowadź Losowanie MDP
-                        </button>
-                        <button onclick="resetCategory('mdp')" class="bg-white hover:bg-slate-100 text-slate-600 border border-slate-300 font-semibold px-3 py-2.5 rounded-xl text-xs transition">
-                            Resetuj
-                        </button>
+                    <!-- Akcja losowania -->
+                    <div class="flex flex-wrap justify-between items-center gap-4 bg-red-50 p-4 rounded-xl border border-red-100 mt-6">
+                        <div>
+                            <h4 class="font-bold text-red-900 text-sm">Oficjalne Losowanie MDP</h4>
+                            <p class="text-xs text-red-600">Kliknięcie wymiesza listę i przydzieli unikalne numery startowe.</p>
+                        </div>
+                        <div class="flex gap-2">
+                            <button onclick="drawNumbers('mdp')" class="bg-red-600 hover:bg-red-700 text-white font-bold px-5 py-2.5 rounded-xl text-sm shadow-md hover:shadow-lg transition flex items-center gap-2">
+                                🎲 Przeprowadź Losowanie MDP
+                            </button>
+                            <button onclick="resetCategory('mdp')" class="bg-white hover:bg-slate-100 text-slate-600 border border-slate-300 font-semibold px-3 py-2.5 rounded-xl text-xs transition">
+                                Resetuj
+                            </button>
+                        </div>
                     </div>
                 </div>
 
@@ -665,23 +669,81 @@
                                 <th class="p-3 text-center w-24">Miejsce</th>
                             </tr>
                         </thead>
-                        <tbody id="table-body-mdp" class="divide-y divide-slate-200 bg-white">
-                            <tr>
-                                <td colspan="6" class="p-8 text-center text-slate-400 italic">Lista startowa jest pusta. Dodaj drużyny i kliknij „Przeprowadź Losowanie”.</td>
-                            </tr>
-                        </tbody>
+                        <tbody id="table-body-mdp" class="divide-y divide-slate-200 bg-white"></tbody>
                     </table>
                 </div>
             </div>
         </section>
 
-        <!-- SKRYPT LOGIKI LOSOWANIA I WYNIKÓW -->
+        <!-- SKRYPT LOGIKI Z KODEM PIN I DOMYŚLNYMI DRUŻYNAMI -->
         <script>
-            // Struktura przechowywania danych
+            // KOD PIN DLA SĘDZIEGO/ORGANIZATORA
+            const SECRET_PIN = "1122";
+            let isAdmin = false;
+
+            // DOMYŚLNA LISTA DRUŻYN (Możesz tu dopisać/zmienić domyślne nazwy)
             const competitionData = {
-                ddp: { preliminary: [], drawn: [], isDrawn: false },
-                mdp: { preliminary: [], drawn: [], isDrawn: false }
+                ddp: { 
+                    preliminary: ["OSP Bojanów DDP", "OSP Krzanowice DDP", "OSP Borucin DDP", "OSP Pietraszyn DDP", "OSP Wojnowice DDP"], 
+                    drawn: [], 
+                    isDrawn: false 
+                },
+                mdp: { 
+                    preliminary: ["OSP Bojanów MDP", "OSP Krzanowice MDP", "OSP Borucin MDP", "OSP Pietraszyn MDP", "OSP Wojnowice MDP"], 
+                    drawn: [], 
+                    isDrawn: false 
+                }
             };
+
+            // Inicjalizacja przy starcie strony
+            document.addEventListener("DOMContentLoaded", () => {
+                renderPreliminary('ddp');
+                renderPreliminary('mdp');
+                renderTable('ddp');
+                renderTable('mdp');
+            });
+
+            // Weryfikacja PIN-u
+            function toggleAdminPanel() {
+                if (isAdmin) {
+                    isAdmin = false;
+                    updateAdminUI();
+                    return;
+                }
+
+                const enteredPin = prompt("Podaj kod PIN Sędziego / Organizatora:");
+                if (enteredPin === SECRET_PIN) {
+                    isAdmin = true;
+                    alert("Zalogowano pomyślnie. Panel sędziowski został odblokowany.");
+                    updateAdminUI();
+                } else if (enteredPin !== null) {
+                    alert("Nieprawidłowy PIN!");
+                }
+            }
+
+            // Aktualizacja widoczności elementów sterujących
+            function updateAdminUI() {
+                const btn = document.getElementById('admin-auth-btn');
+                const controlsDDP = document.getElementById('admin-controls-ddp');
+                const controlsMDP = document.getElementById('admin-controls-mdp');
+
+                if (isAdmin) {
+                    btn.innerHTML = `<span>🔓</span> Wyloguj Sędziego`;
+                    btn.className = "bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-4 py-2.5 rounded-xl text-sm transition flex items-center gap-2 shadow-sm";
+                    controlsDDP.classList.remove('hidden');
+                    controlsMDP.classList.remove('hidden');
+                } else {
+                    btn.innerHTML = `<span>🔒</span> Odblokuj Panel Sędziowski`;
+                    btn.className = "bg-slate-800 hover:bg-slate-900 text-white font-bold px-4 py-2.5 rounded-xl text-sm transition flex items-center gap-2 shadow-sm";
+                    controlsDDP.classList.add('hidden');
+                    controlsMDP.classList.add('hidden');
+                }
+
+                renderPreliminary('ddp');
+                renderPreliminary('mdp');
+                renderTable('ddp');
+                renderTable('mdp');
+            }
 
             // Przełączanie Zakładek DDP / MDP
             function switchTab(category) {
@@ -703,8 +765,9 @@
                 }
             }
 
-            // Dodawanie drużyny
+            // Dodawanie nowej drużyny
             function addTeam(cat) {
+                if (!isAdmin) return;
                 const input = document.getElementById(`input-${cat}-team`);
                 const name = input.value.trim();
                 
@@ -716,7 +779,7 @@
                 renderPreliminary(cat);
             }
 
-            // Wyświetlanie wstępnej listy zgłoszeń
+            // Wyświetlanie listy wstępnych zgłoszeń
             function renderPreliminary(cat) {
                 const container = document.getElementById(`list-${cat}-preliminary`);
                 const countElem = document.getElementById(`count-${cat}`);
@@ -732,29 +795,30 @@
                 container.innerHTML = teams.map((team, idx) => `
                     <span class="bg-white border border-slate-300 text-slate-700 px-3 py-1 rounded-lg flex items-center gap-2 font-medium">
                         ${team}
-                        <button onclick="removeTeam('${cat}', ${idx})" class="text-slate-400 hover:text-red-600 font-bold ml-1">✕</button>
+                        ${isAdmin ? `<button onclick="removeTeam('${cat}', ${idx})" class="text-slate-400 hover:text-red-600 font-bold ml-1" title="Usuń drużynę">✕</button>` : ''}
                     </span>
                 `).join('');
             }
 
-            // Usuwanie drużyny z listy zgłoszeń
+            // Usuwanie drużyny
             function removeTeam(cat, index) {
+                if (!isAdmin) return;
                 competitionData[cat].preliminary.splice(index, 1);
                 renderPreliminary(cat);
             }
 
-            // Przeprowadzenie Losowania (Algorytm Fisher-Yates)
+            // Losowanie kolejności
             function drawNumbers(cat) {
+                if (!isAdmin) return;
                 const teams = [...competitionData[cat].preliminary];
                 if (teams.length === 0) return alert('Dodaj przynajmniej jedną drużynę przed losowaniem!');
 
-                // Mieszanie tablicy
+                // Algorytm Fisher-Yates
                 for (let i = teams.length - 1; i > 0; i--) {
                     const j = Math.floor(Math.random() * (i + 1));
                     [teams[i], teams[j]] = [teams[j], teams[i]];
                 }
 
-                // Mapowanie wylosowanej kolejności
                 competitionData[cat].drawn = teams.map((name, index) => ({
                     number: index + 1,
                     name: name,
@@ -768,12 +832,12 @@
                 renderTable(cat);
             }
 
-            // Aktualizacja wyników czasowych / punktów
+            // Wprowadzanie i edycja czasów
             function updateScore(cat, index, field, value) {
+                if (!isAdmin) return;
                 const team = competitionData[cat].drawn[index];
                 team[field] = value !== '' ? parseFloat(value) : '';
 
-                // Wyliczanie sumy
                 const t = parseFloat(team.time) || 0;
                 const p = parseFloat(team.penalties) || 0;
 
@@ -787,34 +851,28 @@
                 renderTable(cat);
             }
 
-            // Automatyczne przeliczanie miejsc
+            // Przeliczanie zajętych miejsc
             function calculateRanks(cat) {
                 const drawn = competitionData[cat].drawn;
-                
-                // Filtrujemy drużyny z wpisanym czasem
                 const finished = drawn.filter(d => d.total !== null);
-                
-                // Sortujemy wg wyniku łącznego (najkrótszy czas = 1 miejsce)
                 finished.sort((a, b) => a.total - b.total);
 
-                // Przypisywanie miejsc
                 drawn.forEach(team => {
                     if (team.total === null) {
                         team.rank = '-';
                     } else {
-                        const rank = finished.findIndex(f => f.total === team.total) + 1;
-                        team.rank = rank;
+                        team.rank = finished.findIndex(f => f.total === team.total) + 1;
                     }
                 });
             }
 
-            // Generowanie Tabeli Wyników
+            // Renderowanie głównej tabeli
             function renderTable(cat) {
                 const tbody = document.getElementById(`table-body-${cat}`);
                 const data = competitionData[cat].drawn;
 
                 if (!competitionData[cat].isDrawn || data.length === 0) {
-                    tbody.innerHTML = `<tr><td colspan="6" class="p-8 text-center text-slate-400 italic">Lista startowa jest pusta. Dodaj drużyny i kliknij „Przeprowadź Losowanie”.</td></tr>`;
+                    tbody.innerHTML = `<tr><td colspan="6" class="p-8 text-center text-slate-400 italic">Oficjalne losowanie listy startowej jeszcze się nie odbyło.</td></tr>`;
                     return;
                 }
 
@@ -823,14 +881,16 @@
                         <td class="p-3 text-center font-black text-red-600 bg-slate-50/50">${item.number}</td>
                         <td class="p-3 font-bold text-slate-800">${item.name}</td>
                         <td class="p-3 text-center">
-                            <input type="number" step="0.01" value="${item.time}" placeholder="0.00" 
-                                onchange="updateScore('${cat}', ${idx}, 'time', this.value)"
-                                class="w-24 px-2 py-1 border border-slate-300 rounded text-center focus:ring-1 focus:ring-red-500 text-sm">
+                            ${isAdmin ? 
+                                `<input type="number" step="0.01" value="${item.time}" placeholder="0.00" onchange="updateScore('${cat}', ${idx}, 'time', this.value)" class="w-24 px-2 py-1 border border-slate-300 rounded text-center focus:ring-1 focus:ring-red-500 text-sm">` : 
+                                `<span class="font-medium">${item.time ? item.time + ' s' : '-'}</span>`
+                            }
                         </td>
                         <td class="p-3 text-center">
-                            <input type="number" step="1" value="${item.penalties}" placeholder="0" 
-                                onchange="updateScore('${cat}', ${idx}, 'penalties', this.value)"
-                                class="w-20 px-2 py-1 border border-slate-300 rounded text-center focus:ring-1 focus:ring-red-500 text-sm">
+                            ${isAdmin ? 
+                                `<input type="number" step="1" value="${item.penalties}" placeholder="0" onchange="updateScore('${cat}', ${idx}, 'penalties', this.value)" class="w-20 px-2 py-1 border border-slate-300 rounded text-center focus:ring-1 focus:ring-red-500 text-sm">` : 
+                                `<span class="font-medium">${item.penalties ? '+' + item.penalties : '-'}</span>`
+                            }
                         </td>
                         <td class="p-3 text-center font-bold text-slate-900">
                             ${item.total !== null ? item.total + ' s' : '<span class="text-slate-300">-</span>'}
@@ -842,11 +902,12 @@
                 `).join('');
             }
 
-            // Resetowanie danej kategorii
+            // Reset
             function resetCategory(cat) {
+                if (!isAdmin) return;
                 if (confirm(`Czy na pewno chcesz zresetować losowanie i wyniki dla ${cat.toUpperCase()}?`)) {
-                    competitionData[cat] = { preliminary: [], drawn: [], isDrawn: false };
-                    renderPreliminary(cat);
+                    competitionData[cat].drawn = [];
+                    competitionData[cat].isDrawn = false;
                     renderTable(cat);
                 }
             }
