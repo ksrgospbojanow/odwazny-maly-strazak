@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Odważny Mały Strażak - OSP Bojanów</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans">
+
+    <!-- NAGŁÓWEK Z LOGOTYPAMI -->
+    <header class="bg-gradient-to-r from-red-700 via-red-600 to-red-800 text-white py-10 px-4 shadow-xl border-b-4 border-yellow-400">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
+            
+            <!-- Herb OSP Bojanów / Gminy -->
+            <div class="w-28 h-28 bg-white/10 rounded-full p-2 backdrop-blur border border-white/20 flex items-center justify-center shrink-0">
+                <img src="herb-osp-bojanow.png" alt="Herb OSP Bojanów" class="max-h-full object-contain" onerror="this.outerHTML='<div class=\'text-xs text-center text-yellow-300 font-bold\'><i class=\'fa-solid fa-shield-halved text-3xl block mb-1\'></i>HERB OSP BOJANÓW</div>'">
+            </div>
+
+            <!-- Tytuł Wydarzenia -->
+            <div class="flex-grow text-center">
+                <span class="bg-yellow-400 text-red-950 text-xs md:text-sm font-extrabold px-4 py-1.5 rounded-full uppercase tracking-widest shadow-sm">
+                    VI Edycja Ogólnopolskich Zawodów
+                </span>
+                <h1 class="text-3xl md:text-5xl font-black mt-3 mb-1 uppercase tracking-tight text-white drop-shadow">
+                    Odważny Mały Strażak
+                </h1>
+                <p class="text-lg md:text-xl font-medium text-red-100">
+                    Ochotnicza Straż Pożarna w Bojanowie
+                </p>
+                <div class="mt-3 flex flex-wrap justify-center gap-4 text-sm font-semibold text-yellow-300">
+                    <span><i class="fa-solid fa-location-dot mr-1"></i> Remiza OSP Bojanów / Boisko Sportowe (47-470)</span>
+                    <span><i class="fa-regular fa-calendar-days mr-1"></i> 22.08.2026 r. (godz. 13:00)</span>
+                </div>
+            </div>
+
+            <!-- Logo Zawodów (Piesek w kasku) -->
+            <div class="w-28 h-28 bg-white/10 rounded-full p-2 backdrop-blur border border-white/20 flex items-center justify-center shrink-0">
+                <img src="logo-piesek.png" alt="Logo Odważny Mały Strażak" class="max-h-full object-contain" onerror="this.outerHTML='<div class=\'text-xs text-center text-yellow-300 font-bold\'><i class=\'fa-solid fa-dog text-3xl block mb-1\'></i>LOGO PIESEK</div>'">
+            </div>
+
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 py-10 space-y-12">
+
+        <!-- LICZNIK CZASU -->
+        <section class="bg-white p-6 md:p-8 rounded-2xl shadow-lg border border-gray-100 text-center">
+            <h2 class="text-xl md:text-2xl font-bold mb-6 text-gray-800">
+                <i class="fa-solid fa-stopwatch text-red-600 mr-2"></i> Do wielkiego strażackiego święta pozostało:
+            </h2>
+            <div id="countdown" class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto">
+                <div class="bg-red-50 p-4 rounded-xl border border-red-100 shadow-sm">
+                    <span id="days" class="block text-4xl font-black text-red-600">00</span>
+                    <span class="text-xs font-bold text-gray-500 uppercase">Dni</span>
+                </div>
+                <div class="bg-red-50 p-4 rounded-xl border border-red-100 shadow-sm">
+                    <span id="hours" class="block text-4xl font-black text-red-600">00</span>
+                    <span class="text-xs font-bold text-gray-500 uppercase">Godzin</span>
+                </div>
+                <div class="bg-red-50 p-4 rounded-xl border border-red-100 shadow-sm">
+                    <span id="minutes" class="block text-4xl font-black text-red-600">00</span>
+                    <span class="text-xs font-bold text-gray-500 uppercase">Minut</span>
+                </div>
+                <div class="bg-red-50 p-4 rounded-xl border border-red-100 shadow-sm">
+                    <span id="seconds" class="block text-4xl font-black text-red-600">00</span>
+                    <span class="text-xs font-bold text-gray-500 uppercase">Sekund</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- O ZAWODACH I PLAKAT (BOGATY OPIS Z ZACHĘTĄ) -->
+        <section class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+            
+            <!-- Plakat -->
+            <div class="lg:col-span-5 bg-white p-3 rounded-2xl shadow-md border flex flex-col justify-center">
+                <img src="plakat-bojanow.png" alt="Plakat VI Edycji Odważny Mały Strażak Bojanów" class="w-full h-auto rounded-xl object-cover shadow" onerror="this.onerror=null; this.src='https://via.placeholder.com/450x600/dc2626/ffffff?text=PLAKAT+ZAWODÓW+OSP+BOJANÓW';">
+            </div>
+
+            <!-- Opis i szczegóły -->
+            <div class="lg:col-span-7 bg-white p-6 md:p-8 rounded-2xl shadow-md space-y-5 border border-gray-100 flex flex-col justify-between">
+                <div>
+                    <h2 class="text-2xl md:text-3xl font-extrabold text-gray-900 border-b-2 border-red-600 pb-3 mb-4">
+                        Przyjdź, Kibicuj i Baw Się Razem z Nami! 🔥
+                    </h2>
+                    
+                    <p class="text-gray-700 leading-relaxed text-base mb-3">
+                        Już <strong>22 sierpnia 2026 r.</strong> Bojanów stanie się ogólnopolską stolicą młodzieżowego pożarnictwa! Ochotnicza Straż Pożarna w Bojanowie serdecznie zaprasza mieszkańców, rodziny oraz sympatyków pożarnictwa na **VI Edycję Ogólnopolskich Zawodów "Odważny Mały Strażak"**.
+                    </p>
+
+                    <p class="text-gray-700 leading-relaxed text-base mb-4">
+                        To nie tylko pełne emocji, sprawnościowe zmagania najmłodszych adeptów z <strong>Dziecięcych Drużyn Pożarniczych (DDP)</strong> oraz młodzieży z <strong>Młodzieżowych Drużyn Pożarniczych (MDP)</strong>, ale przede wszystkim wspaniały, pełen uśmiechu **piknik rodzinny**! Wasz głośny doping, oklaski i wsparcie na trybunach dadzą małym bohaterom mnóstwo energii do pokonywania trudnych torów przeszkód.
+                    </p>
+
+                    <!-- Pudełko wyróżniające nagrody -->
+                    <div class="bg-yellow-50 p-4 rounded-xl border-l-4 border-yellow-500 my-4 flex items-center gap-4 shadow-sm">
+                        <i class="fa-solid fa-trophy text-yellow-600 text-3xl shrink-0"></i>
+                        <div>
+                            <h4 class="font-extrabold text-yellow-950 text-base">Nagrody dla KAŻDEGO uczestnika!</h4>
+                            <p class="text-xs text-yellow-800">W Bojanowie nie ma przegranych – doceniamy trud i odwagę każdego młodego strażaka!</p>
+                        </div>
+                    </div>
+
+                    <!-- Atrakcje z plakatu + rozbudowa -->
+                    <h3 class="font-bold text-gray-900 text-lg pt-2 mb-2">
+                        🎉 Wyjątkowe strefy i atrakcje dla dzieci, młodzieży i kibiców:
+                    </h3>
+                    <p class="text-xs text-gray-500 mb-3">Poza emocjami sportowymi przygotowaliśmy moc niespodzianek na cały dzień:</p>
+                    
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 text-center">
+                        <div class="bg-red-50/60 p-3 rounded-xl border border-red-100 text-sm font-semibold text-gray-800">
+                            🍦 Słodkie Lody
+                        </div>
+                        <div class="bg-red-50/60 p-3 rounded-xl border border-red-100 text-sm font-semibold text-gray-800">
+                            🍭 Wata Cukrowa
+                        </div>
+                        <div class="bg-red-50/60 p-3 rounded-xl border border-red-100 text-sm font-semibold text-gray-800">
+                            🍿 Chrupiący Popcorn
+                        </div>
+                        <div class="bg-red-50/60 p-3 rounded-xl border border-red-100 text-sm font-semibold text-gray-800">
+                            🏰 Zamek Dmuchany
+                        </div>
+                        <div class="bg-red-50/60 p-3 rounded-xl border border-red-100 text-sm font-semibold text-gray-800">
+                            🧇 Chrupiące Gofry
+                        </div>
+                        <div class="bg-red-50/60 p-3 rounded-xl border border-red-100 text-sm font-semibold text-gray-800">
+                            🎪 Namiot Zadymiony
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-gradient-to-r from-red-600 to-red-700 text-white p-3.5 rounded-xl text-center shadow-md font-bold text-sm mt-4 flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-utensils"></i> Bogato zaopatrzony bufet (dania z grilla, zimne i ciepłe napoje)!
+                </div>
+            </div>
+        </section>
+
+        <!-- PROGRAM / HARMONOGRAM -->
+        <section class="bg-white p-6 md:p-8 rounded-2xl shadow-md border border-gray-100">
+            <h2 class="text-2xl font-bold mb-2 text-gray-900 flex items-center gap-2">
+                <i class="fa-solid fa-clock text-red-600"></i> Szczegółowy Program Wydarzenia (22.08.2026 r.)
+            </h2>
+            <p class="text-gray-500 text-sm mb-6">Harmonogram startów i uroczystości – bądź z nami od samego początku!</p>
+
+            <div class="space-y-4">
+                <div class="flex items-start gap-4 p-4 rounded-xl bg-gray-50 hover:bg-red-50 transition border">
+                    <span class="bg-red-600 text-white font-extrabold px-3.5 py-1.5 rounded-lg text-sm shrink-0 shadow-sm">13:00</span>
+                    <div>
+                        <h4 class="font-bold text-gray-900 text-base">Zbiórka Drużyn</h4>
+                        <p class="text-xs text-gray-600 mt-0.5">Oficjalne powitanie pod remizą OSP Bojanów (47-470 Bojanów, gmina Krzanowice).</p>
+                    </div>
+                </div>
+                <div class="flex items-start gap-4 p-4 rounded-xl bg-gray-50 hover:bg-red-50 transition border">
+                    <span class="bg-red-600 text-white font-extrabold px-3.5 py-1.5 rounded-lg text-sm shrink-0 shadow-sm">13:20</span>
+                    <div>
+                        <h4 class="font-bold text-gray-900 text-base">Uroczysty Wymarsz Drużyn</h4>
+                        <p class="text-xs text-gray-600 mt-0.5">Barwny przelot i wspólne przejście na boisko sportowe przy dopingu mieszkańców.</p>
+                    </div>
+                </div>
+                <div class="flex items-start gap-4 p-4 rounded-xl bg-red-50 border border-red-200 transition shadow-sm">
+                    <span class="bg-red-600 text-white font-extrabold px-3.5 py-1.5 rounded-lg text-sm shrink-0 shadow-sm">14:30</span>
+                    <div>
+                        <h4 class="font-bold text-red-950 text-base">Rozpoczęcie Zawodów DDP (Dziecięce Drużyny Pożarnicze)</h4>
+                        <p class="text-xs text-red-800 mt-0.5">Start najmłodszych adeptów strażactwa – mnóstwo emocji, zabawy i sportowej rywalizacji!</p>
+                    </div>
+                </div>
+                <div class="flex items-start gap-4 p-4 rounded-xl bg-red-50 border border-red-200 transition shadow-sm">
+                    <span class="bg-red-600 text-white font-extrabold px-3.5 py-1.5 rounded-lg text-sm shrink-0 shadow-sm">16:30</span>
+                    <div>
+                        <h4 class="font-bold text-red-950 text-base">Planowany Start Drużyn MDP (Młodzieżowe Drużyny Pożarnicze)</h4>
+                        <p class="text-xs text-red-800 mt-0.5">Widowiskowe starcia młodzieży wymagające szybkości, precyzji i zgrania zespołowego.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEKCJA REGULAMIN -->
+        <section class="bg-gradient-to-r from-gray-900 to-gray-800 text-white p-6 md:p-8 rounded-2xl shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="flex items-center gap-5">
+                <div class="w-16 h-16 bg-red-600/20 text-red-500 rounded-2xl flex items-center justify-center shrink-0 border border-red-500/30 text-3xl">
+                    <i class="fa-solid fa-file-pdf"></i>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold">Regulamin Zawodów DDP i MDP</h3>
+                    <p class="text-gray-300 text-sm mt-1">Sprawdź wytyczne konkurencji, tor przeszkód oraz zasady punktacji.</p>
+                </div>
+            </div>
+            <div class="flex flex-col sm:flex-row gap-3 w-full md:w-auto shrink-0">
+                <a href="RegulaminVI.pdf" target="_blank" class="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-xl text-center shadow transition duration-200 flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-eye"></i> Otwórz PDF
+                </a>
+                <a href="RegulaminVI.pdf" download class="bg-gray-700 hover:bg-gray-600 text-white font-bold py-3 px-6 rounded-xl text-center shadow transition duration-200 flex items-center justify-center gap-2 border border-gray-600">
+                    <i class="fa-solid fa-download"></i> Pobierz PDF
+                </a>
+            </div>
+        </section>
+
+       <!-- LISTA DRUŻYN (12 DDP + 1 WOLNE MIEJSCE / 11 MDP) -->
+        <section class="bg-white p-6 md:p-8 rounded-2xl shadow-md border border-gray-100 space-y-6">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b pb-4">
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-900">Zgłoszone Drużyny</h2>
+                    <p class="text-gray-500 text-sm">Oficjalna lista uczestników VI Edycji Zawodów</p>
+                </div>
+                <span class="bg-yellow-100 text-yellow-800 border border-yellow-300 font-bold text-xs px-3.5 py-1.5 rounded-lg flex items-center gap-1.5">
+                    <i class="fa-solid fa-triangle-exclamation text-yellow-600"></i> Ostatnie 1 wolne miejsce (DDP)
+                </span>
+            </div>
+
+            <!-- DDP (12 drużyn + 1 wolne miejsce) -->
+            <div>
+                <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+                    <h3 class="text-lg font-bold text-red-700 flex items-center gap-2">
+                        <i class="fa-solid fa-child-reaching"></i> Dziecięce Drużyny Pożarnicze (DDP)
+                    </h3>
+                    <span class="text-xs font-semibold bg-red-100 text-red-800 px-2.5 py-1 rounded-full">
+                        Zgłoszono: 12 / 13 drużyn (1 miejsce wolne!)
+                    </span>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                    <div class="p-3 bg-gray-50 rounded-xl border border-gray-200 flex items-center gap-3">
+                        <i class="fa-solid fa-helmet-safety text-red-600 text-xl"></i>
+                        <p class="font-bold text-sm text-gray-800">DDP Bojanów</p>
+                    </div>
+                    <div class="p-3 bg-gray-50 rounded-xl border border-gray-200 flex items-center gap-3">
+                        <i class="fa-solid fa-helmet-safety text-red-600 text-xl"></i>
+                        <p class="font-bold text-sm text-gray-800">DDP Cyprzanów</p>
+                    </div>
+                    <div class="p-3 bg-gray-50 rounded-xl border border-gray-200 flex items-center gap-3">
+                        <i class="fa-solid fa-helmet-safety text-red-600 text-xl"></i>
+                        <p class="font-bold text-sm text-gray-800">DDP Kobyla</p>
+                    </div>
+                    <div class="p-3 bg-gray-50 rounded-xl border border-gray-200 flex items-center gap-3">
+                        <i class="fa-solid fa-helmet-safety text-red-600 text-xl"></i>
+                        <p class="font-bold text-sm text-gray-800">DDP Zabełków</p>
+                    </div>
+                    <div class="p-3 bg-gray-50 rounded-xl border border-gray-200 flex items-center gap-3">
+                        <i class="fa-solid fa-helmet-safety text-red-600 text-xl"></i>
+                        <p class="font-bold text-sm text-gray-800">DDP Tworków</p>
+                    </div>
+                    <div class="p-3 bg-gray-50 rounded-xl border border-gray-200 flex items-center gap-3">
+                        <i class="fa-solid fa-helmet-safety text-red-600 text-xl"></i>
+                        <p class="font-bold text-sm text-gray-800">DDP Pietraszyn</p>
+                    </div>
+                    <div class="p-3 bg-gray-50 rounded-xl border border-gray-200 flex items-center gap-3">
+                        <i class="fa-solid fa-helmet-safety text-red-600 text-xl"></i>
+                        <p class="font-bold text-sm text-gray-800">DDP Borucin</p>
+                    </div>
+                    <div class="p-3 bg-gray-50 rounded-xl border border-gray-200 flex items-center gap-3">
+                        <i class="fa-solid fa-helmet-safety text-red-600 text-xl"></i>
+                        <p class="font-bold text-sm text-gray-800">DDP Krzanowice</p>
+                    </div>
+                    <div class="p-3 bg-gray-50 rounded-xl border border-gray-200 flex items-center gap-3">
+                        <i class="fa-solid fa-helmet-safety text-red-600 text-xl"></i>
+                        <p class="font-bold text-sm text-gray-800">DDP Ostrożnica</p>
+                    </div>
+                    <div class="p-3 bg-gray-50 rounded-xl border border-gray-200 flex items-center gap-3">
+                        <i class="fa-solid fa-helmet-safety text-red-600 text-xl"></i>
+                        <p class="font-bold text-sm text-gray-800">DDP Krzyżanowice</p>
+                    </div>
+                    <div class="p-3 bg-gray-50 rounded-xl border border-gray-200 flex items-center gap-3">
+                        <i class="fa-solid fa-helmet-safety text-red-600 text-xl"></i>
+                        <p class="font-bold text-sm text-gray-800">DDP Samborowice</p>
+                    </div>
+                    <div class="p-3 bg-gray-50 rounded-xl border border-gray-200 flex items-center gap-3">
+                        <i class="fa-solid fa-helmet-safety text-red-600 text-xl"></i>
+                        <p class="font-bold text-sm text-gray-800">DDP Roszków</p>
+                    </div>
+
+                    <!-- KARTA Z WOLNYM MIEJSCEM -->
+                    <div class="p-3 bg-yellow-50 rounded-xl border-2 border-dashed border-yellow-400 flex items-center gap-3 text-yellow-900">
+                        <i class="fa-solid fa-circle-plus text-yellow-600 text-xl animate-pulse"></i>
+                        <div>
+                            <p class="font-bold text-sm">Wolne miejsce (DDP)</p>
+                            <p class="text-[11px] text-yellow-700 font-medium">Chętna drużyna? Skontaktuj się z nami!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MDP (11 drużyn - Lista Zamknięta) -->
+            <div class="pt-4 border-t border-gray-100">
+                <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+                    <h3 class="text-lg font-bold text-red-700 flex items-center gap-2">
+                        <i class="fa-solid fa-users"></i> Młodzieżowe Drużyny Pożarnicze (MDP)
+                    </h3>
+                    <span class="text-xs font-semibold bg-gray-100 text-gray-700 px-2.5 py-1 rounded-full">
+                        Zgłoszono: 11 drużyn (Komplet / Rejestracja zamknięta)
+                    </span>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                    <div class="p-3 bg-gray-50 rounded-xl border border-gray-200 flex items-center gap-3">
+                        <i class="fa-solid fa-helmet-safety text-red-600 text-xl"></i>
+                        <p class="font-bold text-sm text-gray-800">MDP Bojanów</p>
+                    </div>
+                    <div class="p-3 bg-gray-50 rounded-xl border border-gray-200 flex items-center gap-3">
+                        <i class="fa-solid fa-helmet-safety text-red-600 text-xl"></i>
+                        <p class="font-bold text-sm text-gray-800">MDP Tworków 1</p>
+                    </div>
+                    <div class="p-3 bg-gray-50 rounded-xl border border-gray-200 flex items-center gap-3">
+                        <i class="fa-solid fa-helmet-safety text-red-600 text-xl"></i>
+                        <p class="font-bold text-sm text-gray-800">MDP Tworków 2</p>
+                    </div>
+                    <div class="p-3 bg-gray-50 rounded-xl border border-gray-200 flex items-center gap-3">
+                        <i class="fa-solid fa-helmet-safety text-red-600 text-xl"></i>
+                        <p class="font-bold text-sm text-gray-800">MDP Babice</p>
+                    </div>
+                    <div class="p-3 bg-gray-50 rounded-xl border border-gray-200 flex items-center gap-3">
+                        <i class="fa-solid fa-helmet-safety text-red-600 text-xl"></i>
+                        <p class="font-bold text-sm text-gray-800">MDP Wojnowice</p>
+                    </div>
+                    <div class="p-3 bg-gray-50 rounded-xl border border-gray-200 flex items-center gap-3">
+                        <i class="fa-solid fa-helmet-safety text-red-600 text-xl"></i>
+                        <p class="font-bold text-sm text-gray-800">MDP Pietraszyn</p>
+                    </div>
+                    <div class="p-3 bg-gray-50 rounded-xl border border-gray-200 flex items-center gap-3">
+                        <i class="fa-solid fa-helmet-safety text-red-600 text-xl"></i>
+                        <p class="font-bold text-sm text-gray-800">MDP Krzanowice</p>
+                    </div>
+                    <div class="p-3 bg-gray-50 rounded-xl border border-gray-200 flex items-center gap-3">
+                        <i class="fa-solid fa-helmet-safety text-red-600 text-xl"></i>
+                        <p class="font-bold text-sm text-gray-800">MDP Krzyżanowice 1</p>
+                    </div>
+                    <div class="p-3 bg-gray-50 rounded-xl border border-gray-200 flex items-center gap-3">
+                        <i class="fa-solid fa-helmet-safety text-red-600 text-xl"></i>
+                        <p class="font-bold text-sm text-gray-800">MDP Krzyżanowice 2</p>
+                    </div>
+                    <div class="p-3 bg-gray-50 rounded-xl border border-gray-200 flex items-center gap-3">
+                        <i class="fa-solid fa-helmet-safety text-red-600 text-xl"></i>
+                        <p class="font-bold text-sm text-gray-800">MDP Ostrożnica</p>
+                    </div>
+                    <div class="p-3 bg-gray-50 rounded-xl border border-gray-200 flex items-center gap-3">
+                        <i class="fa-solid fa-helmet-safety text-red-600 text-xl"></i>
+                        <p class="font-bold text-sm text-gray-800">MDP Borucin</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+       <!-- PATRONATY I SPONSORZY -->
+        <section class="text-center bg-white p-6 md:p-10 rounded-2xl shadow-md border border-gray-100">
+            <h2 class="text-2xl font-bold mb-1 text-gray-900">Patronaty Honorowe i Sponsorzy</h2>
+            <p class="text-gray-500 text-sm mb-8">Serdecznie dziękujemy instytucjom i partnerom wspierającym młode talenty pożarnictwa:</p>
+
+            <!-- DUŻE PATRONATY HONOROWE (UKŁAD PIONOWY / DUŻY) -->
+            <div class="space-y-6 max-w-3xl mx-auto mb-10">
+                
+                <!-- 1. PATRONAT GŁÓWNY: BURMISTRZ KRZANOWIC -->
+                <div class="p-6 md:p-8 bg-slate-50/90 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition">
+                    <p class="text-xs font-bold text-red-600 uppercase tracking-widest mb-4">Patronat Główny Wydarzenia</p>
+                    
+                    <div class="flex flex-wrap items-center justify-center gap-6 sm:gap-10">
+                        <!-- Herb Krzanowic -->
+                        <div class="h-20 sm:h-28 flex items-center justify-center">
+                            <img src="herb-krzanowice.png" alt="Herb Krzanowic" class="max-h-full w-auto object-contain drop-shadow-sm" onerror="this.outerHTML='<div class=\'w-20 h-24 border-2 border-dashed border-red-500 rounded-lg flex items-center justify-center text-xs font-bold text-red-800 text-center bg-white p-1\'>HERB</div>'">
+                        </div>
+
+                        <!-- Napis PATRONAT / BURMISTRZA KRZANOWIC -->
+                        <div class="text-center font-serif italic tracking-wide text-slate-900">
+                            <span class="block text-base sm:text-xl font-medium tracking-widest uppercase">
+                                PATRONAT<span class="not-italic font-sans text-slate-400 font-light ml-1"></span>
+                            </span>
+                            <span class="block text-lg sm:text-2xl font-bold uppercase tracking-tight mt-1">
+                                BURMISTRZA KRZANOWIC
+                            </span>
+                        </div>
+
+                        <!-- Znak promocyjny Gminy -->
+                        <div class="h-20 sm:h-28 flex items-center justify-center">
+                            <img src="logo-krzanowice-promocyjne.png" alt="Znak Gminy Krzanowice" class="max-h-full w-auto object-contain" onerror="this.outerHTML='<div class=\'w-24 h-24 border-2 border-dashed border-teal-600 rounded-lg flex items-center justify-center text-xs font-bold text-teal-800 text-center bg-white p-1\'>ZNAK GMINY</div>'">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. HONOROWY PATRONAT: STAROSTA RACIBORSKI -->
+                <div class="p-6 md:p-8 bg-slate-50/90 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition">
+                    <p class="text-xs font-bold text-gray-500 uppercase tracking-widest mb-4">Honorowy Patronat</p>
+                    
+                    <div class="flex flex-wrap items-center justify-center gap-6 sm:gap-10">
+                        <!-- Herb Powiatu Raciborskiego -->
+                        <div class="h-20 sm:h-28 flex items-center justify-center">
+                            <img src="herb-powiat-raciborz.png" alt="Herb Powiatu Raciborskiego" class="max-h-full w-auto object-contain drop-shadow-sm" onerror="this.outerHTML='<div class=\'w-20 h-24 border-2 border-dashed border-red-500 rounded-lg flex items-center justify-center text-xs font-bold text-red-800 text-center bg-white p-1\'>HERB POWIATU</div>'">
+                        </div>
+
+                        
+
+                        <!-- Logo Promocyjne Powiatu Raciborskiego -->
+                        <div class="h-20 sm:h-28 flex items-center justify-center">
+                            <img src="logo-powiat-raciborski.png" alt="Logo Powiat Raciborski" class="max-h-full w-auto object-contain" onerror="this.outerHTML='<div class=\'w-28 h-24 border-2 border-dashed border-blue-500 rounded-lg flex items-center justify-center text-xs font-bold text-blue-800 text-center bg-white p-1\'>LOGO POWIATU</div>'">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- SPONSORZY I PARTNERZY (WĄSKE KAFELKI NIŻEJ) -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-2xl mx-auto items-stretch">
+                
+                <!-- Bank Spółdzielczy -->
+                <div class="p-6 border border-slate-200 rounded-2xl bg-gray-50/50 shadow-sm flex flex-col items-center justify-between hover:shadow-md transition">
+                    <p class="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-3">Sponsor</p>
+                    <div class="h-20 w-full flex items-center justify-center my-2">
+                        <img src="Bank.webp" alt="Logo Bank Spółdzielczy w Raciborzu" class="max-h-full max-w-full object-contain" onerror="this.outerHTML='<div class=\'text-xs font-bold text-gray-500 border border-dashed border-gray-300 rounded-lg p-2 w-full text-center bg-white\'>LOGO BS RACIBÓRZ</div>'">
+                    </div>
+                    <p class="text-sm font-bold text-gray-800 mt-3">
+                        Bank Spółdzielczy<br>
+                        <span class="text-xs font-semibold text-gray-600">w Raciborzu</span>
+                    </p>
+                </div>
+
+                <!-- WRBA Usługi PPOŻ -->
+                <div class="p-6 border border-slate-200 rounded-2xl bg-gray-50/50 shadow-sm flex flex-col items-center justify-between hover:shadow-md transition">
+                    <p class="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-3">Sponsor</p>
+                    <div class="h-20 w-full flex items-center justify-center my-2">
+                        <img src="logo-wrba.png" alt="Logo WRBA Usługi PPOŻ" class="max-h-full max-w-full object-contain" onerror="this.outerHTML='<div class=\'text-xs font-bold text-gray-500 border border-dashed border-gray-300 rounded-lg p-2 w-full text-center bg-white\'>LOGO WRBA PPOŻ</div>'">
+                    </div>
+                    <p class="text-sm font-bold text-gray-800 mt-3">
+                        WRBA<br>
+                        <span class="text-xs font-semibold text-gray-600">Usługi PPOŻ</span>
+                    </p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- MAPA I LOKALIZACJA -->
+        <section class="bg-white p-6 rounded-2xl shadow-md border border-gray-100">
+            <h2 class="text-2xl font-bold mb-2 text-gray-900">
+                <i class="fa-solid fa-map-location-dot text-red-600 mr-2"></i> Lokalizacja i Dojazd
+            </h2>
+            <p class="text-gray-600 text-sm mb-4">
+                Zbiórka rozpoczyna się o 13:00 pod remizą <strong>OSP Bojanów (47-470 Bojanów, gmina Krzanowice)</strong>. Stamtąd przejdziemy na położone obok boisko sportowe.
+            </p>
+            <div class="w-full h-80 rounded-xl overflow-hidden border shadow-inner">
+                <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d10271.854611582317!2d18.1568!3d50.0152!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4711f71dfb3cd017%3A0xa1ea1da7ca07049e!2s47-470%20Bojan%C3%B3w!5e0!3m2!1spl!2spl!4v1700000000000" 
+                    width="100%" 
+                    height="100%" 
+                    style="border:0;" 
+                    allowfullscreen="" 
+                    loading="lazy">
+                </iframe>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- STOPKA -->
+    <footer class="bg-gray-900 text-gray-400 text-center py-8 border-t-4 border-red-600 mt-12">
+        <div class="max-w-4xl mx-auto px-4 space-y-2">
+            <p class="font-bold text-white text-base">Ochotnicza Straż Pożarna w Bojanowie</p>
+            <p class="text-sm">VI Edycja Ogólnopolskich Zawodów "Odważny Mały Strażak"</p>
+            <p class="text-xs text-gray-500 pt-4">&copy; 2026 Wszystkie prawa zastrzeżone.</p>
+        </div>
+    </footer>
+
+    <!-- SKRYPT LICZNIKA -->
+    <script>
+        const eventDate = new Date("2026-08-22T13:00:00").getTime();
+
+        const updateTimer = () => {
+            const now = new Date().getTime();
+            const difference = eventDate - now;
+
+            if (difference > 0) {
+                const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+                document.getElementById("days").innerText = days < 10 ? '0' + days : days;
+                document.getElementById("hours").innerText = hours < 10 ? '0' + hours : hours;
+                document.getElementById("minutes").innerText = minutes < 10 ? '0' + minutes : minutes;
+                document.getElementById("seconds").innerText = seconds < 10 ? '0' + seconds : seconds;
+            } else {
+                document.getElementById("countdown").innerHTML = "<p class='text-2xl font-bold text-red-600 col-span-4'>Zawody właśnie się rozpoczęły! Zapraszamy do kibicowania!</p>";
+            }
+        };
+
+        setInterval(updateTimer, 1000);
+        updateTimer();
+    </script>
+</body>
+</html>
