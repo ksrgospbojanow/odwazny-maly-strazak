@@ -169,25 +169,24 @@
 
     <!-- LOGIKA BAZY DANYCH I PANELU -->
     <script>
-        // =========================================================================
-        // ADRES BAZY FIREBASE (WKLEJ SWÓJ URL BAZY JEŚLI POSIADASZ)
-        // =========================================================================
-        const FIREBASE_DATABASE_URL = "https://osp-bojanow-default-rtdb.europe-west1.firebasedatabase.app/"; 
+        const FIREBASE_DATABASE_URL = "https://TWOJA-BAZA-DEFAULT-RTDB.europe-west1.firebasedatabase.app/"; 
         const SECRET_PIN = "1122";
 
         let db = null;
         let isAdmin = false;
 
-        // Domyślna baza drużyn
+        // Domyślna struktura danych
         let competitionData = {
             ddp: {
                 teams: ["DDP Bojanów", "DDP Cyprzanów", "DDP Kobyla", "DDP Zabełków", "DDP Tworków", "DDP Pietraszyn", "DDP Borucin", "DDP Krzanowice", "DDP Ostrożnica", "DDP Krzyżanowice", "DDP Samborowice", "DDP Roszków"],
                 drawn: [],
+                isDrawn: false,
                 ranksRevealed: false
             },
             mdp: {
                 teams: ["MDP Bojanów", "MDP Tworków 1", "MDP Tworków 2", "MDP Babice", "MDP Wojnowice", "MDP Pietraszyn", "MDP Krzanowice", "MDP Krzyżanowice 1", "MDP Krzyżanowice 2", "MDP Ostrożnica", "MDP Borucin"],
-                drawn: []
+                drawn: [],
+                isDrawn: false
             }
         };
 
@@ -206,7 +205,6 @@
                 firebase.initializeApp({ databaseURL: FIREBASE_DATABASE_URL });
                 db = firebase.database();
 
-                // Nasłuchiwanie zmian w czasie rzeczywistym
                 db.ref('competition_data').on('value', (snapshot) => {
                     const val = snapshot.val();
                     if (val) {
@@ -247,8 +245,9 @@
 
         function ensureInitialStructure(cat) {
             if (!competitionData[cat].drawn || competitionData[cat].drawn.length === 0) {
-                competitionData[cat].drawn = competitionData[cat].teams.map((name, idx) => ({
-                    number: idx + 1,
+                competitionData[cat].isDrawn = false;
+                competitionData[cat].drawn = competitionData[cat].teams.map((name) => ({
+                    number: null,
                     name: name,
                     time: '',
                     penalties: '',
@@ -320,7 +319,7 @@
 
             competitionData[cat].teams.push(name);
             competitionData[cat].drawn.push({
-                number: competitionData[cat].drawn.length + 1,
+                number: competitionData[cat].isDrawn ? competitionData[cat].drawn.length + 1 : null,
                 name: name,
                 time: '',
                 penalties: '',
@@ -334,14 +333,16 @@
 
         function drawNumbers(cat) {
             if (!isAdmin) return;
-            let list = [...competitionData[cat].teams];
+            let list = [...competitionData[cat].drawn.map(t => t.name)];
             if (list.length === 0) return alert('Brak drużyn do losowania!');
 
+            // Algorytm losowego mieszania (Fisher-Yates)
             for (let i = list.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
                 [list[i], list[j]] = [list[j], list[i]];
             }
 
+            competitionData[cat].isDrawn = true;
             competitionData[cat].drawn = list.map((name, index) => ({
                 number: index + 1,
                 name: name,
@@ -354,7 +355,7 @@
             if (cat === 'ddp') competitionData.ddp.ranksRevealed = false;
 
             saveData();
-            alert(`🎲 Wylosowano kolejność dla ${cat.toUpperCase()}! Wyniki pojawiły się u widzów.`);
+            alert(`🎲 Wylosowano kolejność dla ${cat.toUpperCase()}! Numery startowe są już widoczne u wszystkich.`);
         }
 
         function toggleDdpRanks() {
@@ -407,16 +408,22 @@
             const tbody = document.getElementById(`table-body-${cat}`);
             if (!tbody) return;
 
-            const data = competitionData[cat].drawn;
+            const categoryInfo = competitionData[cat];
+            const data = categoryInfo.drawn;
 
             if (!data || data.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="6" class="p-6 text-center text-slate-400 italic">Brak drużyn.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="6" class="p-6 text-center text-slate-400 italic">Brak zarejestrowanych drużyn.</td></tr>`;
                 return;
             }
 
-            tbody.innerHTML = data.map((item, idx) => `
+            tbody.innerHTML = data.map((item, idx) => {
+                const showNumber = categoryInfo.isDrawn && item.number ? item.number : '-';
+
+                return `
                 <tr class="hover:bg-slate-50 transition border-b border-slate-100">
-                    <td class="p-3 text-center font-black text-red-600 bg-slate-50 border-r border-slate-100">${item.number}</td>
+                    <td class="p-3 text-center font-black ${categoryInfo.isDrawn ? 'text-red-600' : 'text-slate-400'} bg-slate-50 border-r border-slate-100">
+                        ${showNumber}
+                    </td>
                     <td class="p-3 font-bold text-slate-800">${item.name}</td>
                     <td class="p-3 text-center">
                         ${isAdmin ? 
@@ -440,13 +447,13 @@
                         }
                     </td>
                 </tr>
-            `).join('');
+            `}).join('');
         }
 
         function resetCategory(cat) {
             if (!isAdmin) return;
-            if (confirm(`Czy zresetować kategorię ${cat.toUpperCase()}?`)) {
-                competitionData[cat].drawn = [];
+            if (confirm(`Czy zresetować kategorię ${cat.toUpperCase()}? Przypisane numery oraz czasy zostaną wyczyszczone.`)) {
+                competitionData[cat].isDrawn = false;
                 ensureInitialStructure(cat);
                 saveData();
             }
