@@ -52,9 +52,9 @@
                 </div>
             </div>
 
-            <!-- Gwiazda / Ikona Nocna -->
-            <div class="w-28 h-28 bg-white/10 rounded-full p-2 backdrop-blur border border-white/20 flex items-center justify-center shrink-0 text-yellow-400">
-                <i class="fa-solid fa-fire-flame-curved text-5xl drop-shadow"></i>
+           <!-- Logo Zawodów Nocnych -->
+            <div class="w-28 h-28 bg-white/10 rounded-full p-2 backdrop-blur border border-white/20 flex items-center justify-center shrink-0">
+                <img src="logo-nocne.png" alt="Logo Zawody Nocne" class="max-h-full max-w-full object-contain" onerror="this.outerHTML='<div class=\'text-xs text-center text-yellow-300 font-bold\'><i class=\'fa-solid fa-moon text-3xl block mb-1\'></i>ZAWODY NOCNE</div>'">
             </div>
 
         </div>
@@ -151,7 +151,7 @@
                     <span class="bg-red-600 text-white font-extrabold px-3.5 py-1.5 rounded-lg text-sm shrink-0 shadow-sm">21:00</span>
                     <div>
                         <h4 class="font-bold text-white text-base">Uroczysty Start Zawodów Nocnych</h4>
-                        <p class="text-xs text-red-300 mt-0.5">Oficjalne rozpoczęcie rywalizacji pod reflektorami i pierwsze biegi sztafetowe / bojowe.</p>
+                        <p class="text-xs text-red-300 mt-0.5">Oficjalne rozpoczęcie rywalizacji pod reflektorami i pierwsze starty.</p>
                     </div>
                 </div>
                 <div class="flex items-start gap-4 p-4 rounded-xl bg-slate-800/60 border border-slate-700">
@@ -258,7 +258,7 @@
                     <div class="p-6 border border-slate-700 rounded-2xl bg-slate-800/50 flex flex-col items-center justify-between">
                         <p class="text-[11px] font-bold text-red-500 uppercase tracking-wider mb-3">Sponsor</p>
                         <div class="h-20 w-full flex items-center justify-center my-2">
-                            <img src="logo-spw.png" alt="Szkoła Pamięci SPW Artur Wróblewski" class="max-h-full max-w-full object-contain" onerror="this.outerHTML='<div class=\'text-xs font-bold text-gray-400 border border-dashed border-slate-600 rounded-lg p-2 w-full text-center bg-slate-800\'>SPW ARTUR WRÓBLEWSKI</div>'">
+                            <img src="logo-spw-wroblewski.png" alt="Szkoła Pamięci SPW Artur Wróblewski" class="max-h-full max-w-full object-contain" onerror="this.outerHTML='<div class=\'text-xs font-bold text-gray-400 border border-dashed border-slate-600 rounded-lg p-2 w-full text-center bg-slate-800\'>SPW ARTUR WRÓBLEWSKI</div>'">
                         </div>
                         <p class="text-sm font-bold text-gray-200 mt-3">Szkoła Pamięci SPW<br><span class="text-xs font-semibold text-gray-400">Artur Wróblewski</span></p>
                     </div>
@@ -300,9 +300,9 @@
         </div>
     </footer>
 
-    <!-- SKRYPT LICZNIKA (NOCNE ZAWODY GODZ. 21:00) -->
+    <!-- SKRYPT LICZNIKA (NOCNE ZAWODY GODZ. 20:00) -->
     <script>
-        const eventDate = new Date("2026-08-22T21:00:00").getTime();
+        const eventDate = new Date("2026-08-22T20:00:00").getTime();
 
         const updateTimer = () => {
             const now = new Date().getTime();
