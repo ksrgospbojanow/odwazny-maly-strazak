@@ -112,6 +112,7 @@
                                 <th class="p-3 text-center w-28 sm:w-36">Karne (s)</th>
                                 <th class="p-3 text-center w-28 sm:w-36">Wynik Łączny</th>
                                 <th class="p-3 text-center w-20">Miejsce</th>
+                                <th class="admin-only-col p-3 text-center w-12 hidden">Akcja</th>
                             </tr>
                         </thead>
                         <tbody id="table-body-ddp" class="divide-y divide-slate-200 bg-white"></tbody>
@@ -151,6 +152,7 @@
                                 <th class="p-3 text-center w-28 sm:w-36">Karne (s)</th>
                                 <th class="p-3 text-center w-28 sm:w-36">Wynik Łączny</th>
                                 <th class="p-3 text-center w-20">Miejsce</th>
+                                <th class="admin-only-col p-3 text-center w-12 hidden">Akcja</th>
                             </tr>
                         </thead>
                         <tbody id="table-body-mdp" class="divide-y divide-slate-200 bg-white"></tbody>
@@ -175,7 +177,6 @@
         let db = null;
         let isAdmin = false;
 
-        // Domyślna struktura danych
         let competitionData = {
             ddp: {
                 teams: ["DDP Bojanów", "DDP Cyprzanów", "DDP Kobyla", "DDP Zabełków", "DDP Tworków", "DDP Pietraszyn", "DDP Borucin", "DDP Krzanowice", "DDP Ostrożnica", "DDP Krzyżanowice", "DDP Samborowice", "DDP Roszków"],
@@ -266,7 +267,7 @@
             const enteredPin = prompt("Podaj PIN Sędziego:");
             if (enteredPin === SECRET_PIN) {
                 isAdmin = true;
-                alert("Zalogowano pomyślnie! Tryb edycji sędziowskiej jest aktywny.");
+                alert("Zalogowano pomyślnie!");
                 updateAdminUI();
             } else if (enteredPin !== null) {
                 alert("Nieprawidłowy PIN!");
@@ -277,17 +278,20 @@
             const btn = document.getElementById('admin-auth-btn');
             const controlsDDP = document.getElementById('admin-controls-ddp');
             const controlsMDP = document.getElementById('admin-controls-mdp');
+            const adminCols = document.querySelectorAll('.admin-only-col');
 
             if (isAdmin) {
                 btn.innerHTML = `<i class="fa-solid fa-unlock"></i> Wyloguj Sędziego`;
                 btn.className = "bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-4 py-2.5 rounded-xl text-sm shadow-md";
                 controlsDDP.classList.remove('hidden');
                 controlsMDP.classList.remove('hidden');
+                adminCols.forEach(col => col.classList.remove('hidden'));
             } else {
                 btn.innerHTML = `<i class="fa-solid fa-lock"></i> Panel Sędziowski`;
                 btn.className = "bg-slate-900 hover:bg-black text-white font-bold px-4 py-2.5 rounded-xl text-sm shadow-md";
                 controlsDDP.classList.add('hidden');
                 controlsMDP.classList.add('hidden');
+                adminCols.forEach(col => col.classList.add('hidden'));
             }
             renderTables();
         }
@@ -317,7 +321,9 @@
             const name = input.value.trim();
             if (!name) return alert('Wpisz nazwę drużyny!');
 
+            if (!competitionData[cat].teams) competitionData[cat].teams = [];
             competitionData[cat].teams.push(name);
+            
             competitionData[cat].drawn.push({
                 number: competitionData[cat].isDrawn ? competitionData[cat].drawn.length + 1 : null,
                 name: name,
@@ -331,9 +337,35 @@
             saveData();
         }
 
+        function removeTeam(cat, index) {
+            if (!isAdmin) return;
+            const team = competitionData[cat].drawn[index];
+            if (confirm(`Czy na pewno chcesz usunąć drużynę: "${team.name}"?`)) {
+                
+                // Usuń z tablicy wylosowanej
+                competitionData[cat].drawn.splice(index, 1);
+                
+                // Usuń z listy podstawowej
+                const baseIdx = competitionData[cat].teams.indexOf(team.name);
+                if (baseIdx > -1) {
+                    competitionData[cat].teams.splice(baseIdx, 1);
+                }
+
+                // Jeśli kategoria była już wylosowana, przenumeruj pozostałe drużyny
+                if (competitionData[cat].isDrawn) {
+                    competitionData[cat].drawn.forEach((item, idx) => {
+                        item.number = idx + 1;
+                    });
+                }
+
+                if (cat === 'mdp') calculateRanksMDP();
+                saveData();
+            }
+        }
+
         function drawNumbers(cat) {
             if (!isAdmin) return;
-            let list = [...competitionData[cat].drawn.map(t => t.name)];
+            let list = competitionData[cat].drawn.map(t => t.name);
             if (list.length === 0) return alert('Brak drużyn do losowania!');
 
             // Algorytm losowego mieszania (Fisher-Yates)
@@ -355,7 +387,7 @@
             if (cat === 'ddp') competitionData.ddp.ranksRevealed = false;
 
             saveData();
-            alert(`🎲 Wylosowano kolejność dla ${cat.toUpperCase()}! Numery startowe są już widoczne u wszystkich.`);
+            alert(`🎲 Wylosowano kolejność dla ${cat.toUpperCase()}! Numery startowe są widoczne.`);
         }
 
         function toggleDdpRanks() {
@@ -412,17 +444,20 @@
             const data = categoryInfo.drawn;
 
             if (!data || data.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="6" class="p-6 text-center text-slate-400 italic">Brak zarejestrowanych drużyn.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="7" class="p-6 text-center text-slate-400 italic">Brak zarejestrowanych drużyn.</td></tr>`;
                 return;
             }
 
             tbody.innerHTML = data.map((item, idx) => {
-                const showNumber = categoryInfo.isDrawn && item.number ? item.number : '-';
+                // Czy numer startowy ma się pokazywać:
+                // Pokazuje się jeśli kategoria jest wylosowana (isDrawn) ORAZ obiekt posiada nadany numer.
+                const hasNum = categoryInfo.isDrawn && (item.number !== null && item.number !== undefined);
+                const displayNum = hasNum ? item.number : '-';
 
                 return `
                 <tr class="hover:bg-slate-50 transition border-b border-slate-100">
-                    <td class="p-3 text-center font-black ${categoryInfo.isDrawn ? 'text-red-600' : 'text-slate-400'} bg-slate-50 border-r border-slate-100">
-                        ${showNumber}
+                    <td class="p-3 text-center font-black ${hasNum ? 'text-red-600 text-base' : 'text-slate-400'} bg-slate-50 border-r border-slate-100">
+                        ${displayNum}
                     </td>
                     <td class="p-3 font-bold text-slate-800">${item.name}</td>
                     <td class="p-3 text-center">
@@ -445,6 +480,11 @@
                             (competitionData.ddp.ranksRevealed ? `<span class="inline-block w-7 h-7 leading-7 rounded-full font-black text-xs bg-amber-400 text-amber-950 shadow-sm">1</span>` : '-') : 
                             (item.rank !== '-' ? `<span class="inline-block w-7 h-7 leading-7 rounded-full font-black text-xs ${item.rank === 1 ? 'bg-amber-400 text-amber-950' : item.rank === 2 ? 'bg-slate-300 text-slate-800' : item.rank === 3 ? 'bg-amber-700 text-white' : 'bg-slate-100 text-slate-600'}">${item.rank}</span>` : '-')
                         }
+                    </td>
+                    <td class="admin-only-col p-3 text-center ${isAdmin ? '' : 'hidden'}">
+                        <button onclick="removeTeam('${cat}', ${idx})" title="Usuń drużynę" class="p-1.5 bg-red-100 text-red-600 hover:bg-red-600 hover:text-white rounded-lg transition">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
                     </td>
                 </tr>
             `}).join('');
