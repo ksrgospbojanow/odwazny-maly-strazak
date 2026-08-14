@@ -221,7 +221,7 @@
                     </span>
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                <div id="grid-ddp" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                     <div class="p-3 bg-gray-50 rounded-xl border border-gray-200 flex items-center gap-3">
                         <i class="fa-solid fa-helmet-safety text-red-600 text-xl"></i>
                         <p class="font-bold text-sm text-gray-800">DDP Bojanów</p>
@@ -293,7 +293,7 @@
                     </span>
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                <div id="grid-mdp" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                     <div class="p-3 bg-gray-50 rounded-xl border border-gray-200 flex items-center gap-3">
                         <i class="fa-solid fa-helmet-safety text-red-600 text-xl"></i>
                         <p class="font-bold text-sm text-gray-800">MDP Bojanów</p>
@@ -696,26 +696,30 @@
             });
 
             // Pobieranie drużyn z istniejących elementów strony
-            function fetchRegisteredTeamsFromPage() {
-                // Wykrywanie Drużyn DDP z istniejących sekcji strony
-                const ddpElements = document.querySelectorAll('#lista-ddp li, .lista-ddp li, [data-kategoria="ddp"]');
-                ddpElements.forEach(el => {
-                    const name = el.innerText.trim();
-                    if (name && !competitionData.ddp.preliminary.includes(name)) {
-                        competitionData.ddp.preliminary.push(name);
-                    }
-                });
+            // Pobieranie drużyn z kart widocznych na stronie
+function fetchRegisteredTeamsFromPage() {
+    // Resetujemy listy wstępne
+    competitionData.ddp.preliminary = [];
+    competitionData.mdp.preliminary = [];
 
-                // Wykrywanie Drużyn MDP z istniejących sekcji strony
-                const mdpElements = document.querySelectorAll('#lista-mdp li, .lista-mdp li, [data-kategoria="mdp"]');
-                mdpElements.forEach(el => {
-                    const name = el.innerText.trim();
-                    if (name && !competitionData.mdp.preliminary.includes(name)) {
-                        competitionData.mdp.preliminary.push(name);
-                    }
-                });
-            }
+    // Pobranie drużyn DDP (z ignorowaniem karty "Wolne miejsce")
+    const ddpElements = document.querySelectorAll('#grid-ddp p.font-bold.text-sm');
+    ddpElements.forEach(el => {
+        const name = el.innerText.trim();
+        if (name && !name.toLowerCase().includes('wolne miejsce') && !competitionData.ddp.preliminary.includes(name)) {
+            competitionData.ddp.preliminary.push(name);
+        }
+    });
 
+    // Pobranie drużyn MDP
+    const mdpElements = document.querySelectorAll('#grid-mdp p.font-bold.text-sm');
+    mdpElements.forEach(el => {
+        const name = el.innerText.trim();
+        if (name && !competitionData.mdp.preliminary.includes(name)) {
+            competitionData.mdp.preliminary.push(name);
+        }
+    });
+}
             // Weryfikacja PIN-u
             function toggleAdminPanel() {
                 if (isAdmin) {
